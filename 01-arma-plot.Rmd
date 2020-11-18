@@ -1,0 +1,27 @@
+# ARMA模型的一些图像
+
+```{r}
+library(TSA)
+```
+
+## 模拟ARIMA
+
+可以使用R自带的函数`arima.sim`来模拟生成ARIMA模型数据。
+
+- AR(1):
+
+$$
+Y_t = 0.7Y_{t-1}+e_t
+$$
+```{r}
+y = arima.sim(model=list(ar=c(0.7)), n=100, sd=0.2)
+plot(y)
+```
+
+$$
+Y_t = -0.7Y_{t-1}+e_t
+$$
+```{r}
+y = arima.sim(model=list(ar=c(-0.7)), n=100, sd=0.2)
+plot(y)
+```
