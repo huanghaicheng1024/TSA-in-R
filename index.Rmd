@@ -18,6 +18,8 @@ description: "这是使用bookdwon编写的书籍。"
 
 理论部分大多是纸质笔记，这里主要记录一下R语言的的实现。
 
+**准备**：安装`TSA`包。
+
 <p style="text-align: right;">2020-11-18</p>
 
 ```{r include=FALSE}
