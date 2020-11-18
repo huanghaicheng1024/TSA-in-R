@@ -1,5 +1,5 @@
 --- 
-title: "TSA in R学习笔记"
+title: "TSA in R 学习笔记"
 author: "Huang"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
@@ -12,9 +12,13 @@ description: "这是使用bookdwon编写的书籍。"
 
 # 背景 {-}
 
-开始正式学习《R for data science》(https://r4ds.had.co.nz/)
+开始正式学习《时间序列分析及应用 R语言》(Time Series Analysis with Applications in R)。Joanthan D.Cryer & Kung-Sik Chan 著，潘红宇等译。
 
-<p style="text-align: right;">2020-8-29</p>
+贴个[豆瓣链接](https://book.douban.com/subject/5416787/)
+
+理论部分大多是纸质笔记，这里主要记录一下R语言的的实现。
+
+<p style="text-align: right;">2020-11-18</p>
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages
