@@ -1,2 +1,6 @@
+fig:1-fig1
 arma模型的一些图像
 模拟arima
+maq过程
+ma1
+举例1
