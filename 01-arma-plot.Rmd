@@ -60,14 +60,105 @@ $$
 这里的 $\theta=-0.9$。
 
 模拟时间序列图：
-```{r }
+```{r ma1-plot-1,fig.cap="MA(1)例1模拟时间序列图"}
 y = arima.sim(model=list(ma=c(0.9)), n=150, sd=1)
 plot(y)
 ```
 
-由\@ref(fig:1-fig1)，当$\theta$接近-1，一阶自相关系数$\rho_1$接近0.5，表示存在中等强度的正相关，如果一个观测值高于平均值，那么下一个观测值一般也会高于平均值，图形随时间变化比较**平缓**，只是偶尔有比较大的波动。
+由图\@ref(fig:1-fig1)，当$\theta$接近-1，一阶自相关系数$\rho_1$接近0.5，表示存在中等强度的正相关，如果一个观测值高于平均值，那么下一个观测值一般也会高于平均值，图形随时间变化比较**平缓**，只是偶尔有比较大的波动。
+
+滞后散点图：
+```{r}
+opar <- par(no.readonly = T)
+par(mfrow=c(1,2))
+plot(zlag(y),y,ylab=expression(Y[t]),xlab=expression(Y[t-1]),
+     type="p",main="一阶滞后散点图")
+plot(zlag(y,2),y,ylab=expression(Y[t]),xlab=expression(Y[t-2]),
+     type="p",main="二阶滞后散点图")
+```
+
+左图相关性明显，右图相关性不明显。即一阶滞后自相关明显，二阶滞后自相关不明显，与前面提到的统计特性一致。
+
+#### 举例2
+
+如果说图\@ref(fig:ma1-plot-1)的“平缓性”不明显，那我们就来个对比伤害吧。
+
+$$
+Y_t = e_t-0.9 e_{t-1}
+$$
+
+这里的 $\theta=0.9$。
+
+模拟时间序列图：
+```{r ma1-plot-2,fig.cap="MA(1)例2模拟时间序列图"}
+y = arima.sim(model=list(ma=c(-0.9)), n=150, sd=1)
+plot(y)
+```
+
+由图\@ref(fig:1-fig1)，当$\theta$接近1，一阶自相关系数$\rho_1$接近-0.5，表示存在中等强度的负相关，如果一个观测值高于平均值，那么下一个观测值一般会低于平均值，图形随时间变化呈**锯齿状**，特别是和图\@ref(fig:ma1-plot-1)相比。
+
+滞后散点图：
+```{r}
+opar <- par(no.readonly = T)
+par(mfrow=c(1,2))
+plot(zlag(y),y,ylab=expression(Y[t]),xlab=expression(Y[t-1]),
+     type="p",main="一阶滞后散点图")
+plot(zlag(y,2),y,ylab=expression(Y[t]),xlab=expression(Y[t-2]),
+     type="p",main="二阶滞后散点图")
+```
+
+左图相关性明显，右图相关性不明显。即一阶滞后自相关明显，二阶滞后自相关不明显，与前面提到的统计特性一致。
+
+### MA(2)
+
+模型表达：
+$$
+Y_t = e_t-\theta_1e_{t-1}-\theta_2e_{t-2}
+$$
+
+统计特性：
+$$
+\gamma_0=\sigma_e^2(1+\theta_1^2+\theta_2^2),\quad \gamma_1 = (-\theta+\theta_1\theta_2)\sigma_e^2,\quad 
+\gamma_2=-\theta_2\sigma^2_e
+$$
 
 
+$$
+\rho_1=\frac{-\theta_1+\theta_1\theta_2}{1+\theta_1^2+\theta_2^2},\quad 
+\rho_k=\frac{-\theta_2}{1+\theta_1^2+\theta_2^2},\quad
+\rho_k=0(k\ge3)
+$$
+
+#### 举例1
+
+$$
+Y_t = e_t-e_{t-1}+0.6e_{t-2}
+$$
+
+这里的 $\theta_1=1,\theta_2=-0.6$。从而可以计算 $\rho_1=-0.678,\rho_2=0.254$。
+
+模拟时间序列图：
+```{r ma2-plot-1,fig.cap="MA(2)例1模拟时间序列图"}
+y = arima.sim(model=list(ma=c(-1,0.6)), n=150, sd=1)
+plot(y)
+```
+
+一阶滞后比较强的负自相关，导致了图像呈现比较明显的锯齿状，围绕均值周围震荡。
+
+滞后散点图：
+```{r fig.width=8,out.width="80%"}
+opar <- par(no.readonly = T)
+par(mfrow=c(2,2))
+plot(zlag(y),y,ylab=expression(Y[t]),xlab=expression(Y[t-1]),
+     type="p",main="一阶滞后散点图")
+plot(zlag(y,2),y,ylab=expression(Y[t]),xlab=expression(Y[t-2]),
+     type="p",main="二阶滞后散点图")
+plot(zlag(y,3),y,ylab=expression(Y[t]),xlab=expression(Y[t-3]),
+     type="p",main="三阶滞后散点图")
+par(opar)
+```
+
+与计算得到的$\rho_k$基本一致。
 
 
 
