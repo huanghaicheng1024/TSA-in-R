@@ -2,6 +2,7 @@ fig:1-fig1
 fig:ma1-plot-1
 fig:ma1-plot-2
 fig:ma2-plot-1
+fig:ar1-rho-1
 arma模型的一些图像
 模拟arima
 maq过程
@@ -10,3 +11,5 @@ ma1
 举例2
 ma2
 举例1-1
+arp过程
+ar1
