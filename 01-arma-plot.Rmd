@@ -160,6 +160,65 @@ par(opar)
 
 与计算得到的$\rho_k$基本一致。
 
+## AR(p)过程
+
+$$
+Y_t = \phi_1Y_{t-1}+\phi_2Y_{t-2}+\cdots+\phi_pY_{t-p}+e_t
+$$
+
+### AR(1)
+
+模型表达：
+$$
+Y_t = \phi Y_{t-1}+e_t
+$$
+
+统计特性：
+$$
+\gamma_0=\frac{\sigma_e^2}{1-\phi^2},\quad 
+\gamma_k=\phi\gamma_{k-1}(k\ge1)
+$$
+
+$$
+\rho_k=\phi^k(k\ge1)
+$$
+
+不同$\phi$下AR(1)的自相关函数：
+
+```{r ar1-rho-1,fig.cap="不同phi下AR(1)的自相关函数",fig.width=8,out.width="80%"}
+opar <- par(no.readonly = T)
+par(mfrow=c(2,2))
+p <- c(0.9,0.4,-0.8,-0.5)
+k <- seq(1,15,1)
+for(i in p) {
+  m <- bquote(phi~"="~.(i))  # 将数学符号跟变量结合在一起
+  y = i^k
+  plot(k,y,xlab = "滞后",ylab = "自相关函数",
+       main = m,type="h")
+  points(k,y,pch=20)
+  abline(h = 0)
+}
+par(opar)
+```
+
+由于$|\phi|<1$（平稳性），所以随着滞后长度k的增长，自相关系数的绝对值呈指数递减。当$\phi>0$，自相关系数均大于0，当$\phi<0$，自相关系数正负交错。
+
+当$\phi$在$\pm1$附近，指数递减得很慢，远离$\pm1$时会指数递减得很快。所以当$\phi$在$\pm1$附近时，强相关性将会持续很多期。如果$\phi>0$，序列会相对平滑（可能还会看起来像是有趋势），如果$\phi<0$，序列呈锯齿状。
+
+> 关于上图中将数学符号跟变量结合在一起的做法，详见 https://blog.csdn.net/weixin_41929524/article/details/103610743, https://stackoverflow.com/questions/15074127/use-expression-with-a-variable-r
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
