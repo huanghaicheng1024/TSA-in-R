@@ -24,7 +24,7 @@
 <meta name="author" content="Huang" />
 
 
-<meta name="date" content="2020-11-20" />
+<meta name="date" content="2020-11-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -143,6 +143,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.2" data-path="arma模型的一些图像.html"><a href="arma模型的一些图像.html#maq过程"><i class="fa fa-check"></i><b>1.2</b> MA(q)过程</a>
 <ul>
 <li class="chapter" data-level="1.2.1" data-path="arma模型的一些图像.html"><a href="arma模型的一些图像.html#ma1"><i class="fa fa-check"></i><b>1.2.1</b> MA(1)</a></li>
+<li class="chapter" data-level="1.2.2" data-path="arma模型的一些图像.html"><a href="arma模型的一些图像.html#ma2"><i class="fa fa-check"></i><b>1.2.2</b> MA(2)</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -219,8 +220,95 @@ Y_t = e_t+0.9 e_{t-1}
 <p>模拟时间序列图：</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="arma模型的一些图像.html#cb4-1"></a>y =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ma=</span><span class="kw">c</span>(<span class="fl">0.9</span>)), <span class="dt">n=</span><span class="dv">150</span>, <span class="dt">sd=</span><span class="dv">1</span>)</span>
 <span id="cb4-2"><a href="arma模型的一些图像.html#cb4-2"></a><span class="kw">plot</span>(y)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:ma1-plot-1"></span>
+<img src="TSA-in-R_files/figure-html/ma1-plot-1-1.png" alt="MA(1)例1模拟时间序列图" width="70%" />
+<p class="caption">
+图1.2: MA(1)例1模拟时间序列图
+</p>
+</div>
+<p>由图<a href="arma模型的一些图像.html#fig:1-fig1">1.1</a>，当<span class="math inline">\(\theta\)</span>接近-1，一阶自相关系数<span class="math inline">\(\rho_1\)</span>接近0.5，表示存在中等强度的正相关，如果一个观测值高于平均值，那么下一个观测值一般也会高于平均值，图形随时间变化比较<strong>平缓</strong>，只是偶尔有比较大的波动。</p>
+<p>滞后散点图：</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="arma模型的一些图像.html#cb5-1"></a>opar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">no.readonly =</span> T)</span>
+<span id="cb5-2"><a href="arma模型的一些图像.html#cb5-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb5-3"><a href="arma模型的一些图像.html#cb5-3"></a><span class="kw">plot</span>(<span class="kw">zlag</span>(y),y,<span class="dt">ylab=</span><span class="kw">expression</span>(Y[t]),<span class="dt">xlab=</span><span class="kw">expression</span>(Y[t<span class="dv">-1</span>]),</span>
+<span id="cb5-4"><a href="arma模型的一些图像.html#cb5-4"></a>     <span class="dt">type=</span><span class="st">&quot;p&quot;</span>,<span class="dt">main=</span><span class="st">&quot;一阶滞后散点图&quot;</span>)</span>
+<span id="cb5-5"><a href="arma模型的一些图像.html#cb5-5"></a><span class="kw">plot</span>(<span class="kw">zlag</span>(y,<span class="dv">2</span>),y,<span class="dt">ylab=</span><span class="kw">expression</span>(Y[t]),<span class="dt">xlab=</span><span class="kw">expression</span>(Y[t<span class="dv">-2</span>]),</span>
+<span id="cb5-6"><a href="arma模型的一些图像.html#cb5-6"></a>     <span class="dt">type=</span><span class="st">&quot;p&quot;</span>,<span class="dt">main=</span><span class="st">&quot;二阶滞后散点图&quot;</span>)</span></code></pre></div>
 <p><img src="TSA-in-R_files/figure-html/unnamed-chunk-6-1.png" width="70%" style="display: block; margin: auto;" /></p>
-<p>由<a href="arma模型的一些图像.html#fig:1-fig1">1.1</a>，当<span class="math inline">\(\theta\)</span>接近-1，一阶自相关系数<span class="math inline">\(\rho_1\)</span>接近0.5，表示存在中等强度的正相关，如果一个观测值高于平均值，那么下一个观测值一般也会高于平均值，图形随时间变化比较<strong>平缓</strong>，只是偶尔有比较大的波动。</p>
+<p>左图相关性明显，右图相关性不明显。即一阶滞后自相关明显，二阶滞后自相关不明显，与前面提到的统计特性一致。</p>
+</div>
+<div id="举例2" class="section level4" number="1.2.1.2">
+<h4><span class="header-section-number">1.2.1.2</span> 举例2</h4>
+<p>如果说图<a href="arma模型的一些图像.html#fig:ma1-plot-1">1.2</a>的“平缓性”不明显，那我们就来个对比伤害吧。</p>
+<p><span class="math display">\[
+Y_t = e_t-0.9 e_{t-1}
+\]</span></p>
+<p>这里的 <span class="math inline">\(\theta=0.9\)</span>。</p>
+<p>模拟时间序列图：</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="arma模型的一些图像.html#cb6-1"></a>y =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ma=</span><span class="kw">c</span>(<span class="op">-</span><span class="fl">0.9</span>)), <span class="dt">n=</span><span class="dv">150</span>, <span class="dt">sd=</span><span class="dv">1</span>)</span>
+<span id="cb6-2"><a href="arma模型的一些图像.html#cb6-2"></a><span class="kw">plot</span>(y)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:ma1-plot-2"></span>
+<img src="TSA-in-R_files/figure-html/ma1-plot-2-1.png" alt="MA(1)例2模拟时间序列图" width="70%" />
+<p class="caption">
+图1.3: MA(1)例2模拟时间序列图
+</p>
+</div>
+<p>由图<a href="arma模型的一些图像.html#fig:1-fig1">1.1</a>，当<span class="math inline">\(\theta\)</span>接近1，一阶自相关系数<span class="math inline">\(\rho_1\)</span>接近-0.5，表示存在中等强度的负相关，如果一个观测值高于平均值，那么下一个观测值一般会低于平均值，图形随时间变化呈<strong>锯齿状</strong>，特别是和图<a href="arma模型的一些图像.html#fig:ma1-plot-1">1.2</a>相比。</p>
+<p>滞后散点图：</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="arma模型的一些图像.html#cb7-1"></a>opar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">no.readonly =</span> T)</span>
+<span id="cb7-2"><a href="arma模型的一些图像.html#cb7-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb7-3"><a href="arma模型的一些图像.html#cb7-3"></a><span class="kw">plot</span>(<span class="kw">zlag</span>(y),y,<span class="dt">ylab=</span><span class="kw">expression</span>(Y[t]),<span class="dt">xlab=</span><span class="kw">expression</span>(Y[t<span class="dv">-1</span>]),</span>
+<span id="cb7-4"><a href="arma模型的一些图像.html#cb7-4"></a>     <span class="dt">type=</span><span class="st">&quot;p&quot;</span>,<span class="dt">main=</span><span class="st">&quot;一阶滞后散点图&quot;</span>)</span>
+<span id="cb7-5"><a href="arma模型的一些图像.html#cb7-5"></a><span class="kw">plot</span>(<span class="kw">zlag</span>(y,<span class="dv">2</span>),y,<span class="dt">ylab=</span><span class="kw">expression</span>(Y[t]),<span class="dt">xlab=</span><span class="kw">expression</span>(Y[t<span class="dv">-2</span>]),</span>
+<span id="cb7-6"><a href="arma模型的一些图像.html#cb7-6"></a>     <span class="dt">type=</span><span class="st">&quot;p&quot;</span>,<span class="dt">main=</span><span class="st">&quot;二阶滞后散点图&quot;</span>)</span></code></pre></div>
+<p><img src="TSA-in-R_files/figure-html/unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>左图相关性明显，右图相关性不明显。即一阶滞后自相关明显，二阶滞后自相关不明显，与前面提到的统计特性一致。</p>
+</div>
+</div>
+<div id="ma2" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> MA(2)</h3>
+<p>模型表达：
+<span class="math display">\[
+Y_t = e_t-\theta_1e_{t-1}-\theta_2e_{t-2}
+\]</span></p>
+<p>统计特性：
+<span class="math display">\[
+\gamma_0=\sigma_e^2(1+\theta_1^2+\theta_2^2),\quad \gamma_1 = (-\theta+\theta_1\theta_2)\sigma_e^2,\quad 
+\gamma_2=-\theta_2\sigma^2_e
+\]</span></p>
+<p><span class="math display">\[
+\rho_1=\frac{-\theta_1+\theta_1\theta_2}{1+\theta_1^2+\theta_2^2},\quad 
+\rho_k=\frac{-\theta_2}{1+\theta_1^2+\theta_2^2},\quad
+\rho_k=0(k\ge3)
+\]</span></p>
+<div id="举例1-1" class="section level4" number="1.2.2.1">
+<h4><span class="header-section-number">1.2.2.1</span> 举例1</h4>
+<p><span class="math display">\[
+Y_t = e_t-e_{t-1}+0.6e_{t-2}
+\]</span></p>
+<p>这里的 <span class="math inline">\(\theta_1=1,\theta_2=-0.6\)</span>。从而可以计算 <span class="math inline">\(\rho_1=-0.678,\rho_2=0.254\)</span>。</p>
+<p>模拟时间序列图：</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="arma模型的一些图像.html#cb8-1"></a>y =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ma=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="fl">0.6</span>)), <span class="dt">n=</span><span class="dv">150</span>, <span class="dt">sd=</span><span class="dv">1</span>)</span>
+<span id="cb8-2"><a href="arma模型的一些图像.html#cb8-2"></a><span class="kw">plot</span>(y)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:ma2-plot-1"></span>
+<img src="TSA-in-R_files/figure-html/ma2-plot-1-1.png" alt="MA(2)例1模拟时间序列图" width="70%" />
+<p class="caption">
+图1.4: MA(2)例1模拟时间序列图
+</p>
+</div>
+<p>一阶滞后比较强的负自相关，导致了图像呈现比较明显的锯齿状，围绕均值周围震荡。</p>
+<p>滞后散点图：</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="arma模型的一些图像.html#cb9-1"></a>opar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">no.readonly =</span> T)</span>
+<span id="cb9-2"><a href="arma模型的一些图像.html#cb9-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb9-3"><a href="arma模型的一些图像.html#cb9-3"></a><span class="kw">plot</span>(<span class="kw">zlag</span>(y),y,<span class="dt">ylab=</span><span class="kw">expression</span>(Y[t]),<span class="dt">xlab=</span><span class="kw">expression</span>(Y[t<span class="dv">-1</span>]),</span>
+<span id="cb9-4"><a href="arma模型的一些图像.html#cb9-4"></a>     <span class="dt">type=</span><span class="st">&quot;p&quot;</span>,<span class="dt">main=</span><span class="st">&quot;一阶滞后散点图&quot;</span>)</span>
+<span id="cb9-5"><a href="arma模型的一些图像.html#cb9-5"></a><span class="kw">plot</span>(<span class="kw">zlag</span>(y,<span class="dv">2</span>),y,<span class="dt">ylab=</span><span class="kw">expression</span>(Y[t]),<span class="dt">xlab=</span><span class="kw">expression</span>(Y[t<span class="dv">-2</span>]),</span>
+<span id="cb9-6"><a href="arma模型的一些图像.html#cb9-6"></a>     <span class="dt">type=</span><span class="st">&quot;p&quot;</span>,<span class="dt">main=</span><span class="st">&quot;二阶滞后散点图&quot;</span>)</span>
+<span id="cb9-7"><a href="arma模型的一些图像.html#cb9-7"></a><span class="kw">plot</span>(<span class="kw">zlag</span>(y,<span class="dv">3</span>),y,<span class="dt">ylab=</span><span class="kw">expression</span>(Y[t]),<span class="dt">xlab=</span><span class="kw">expression</span>(Y[t<span class="dv">-3</span>]),</span>
+<span id="cb9-8"><a href="arma模型的一些图像.html#cb9-8"></a>     <span class="dt">type=</span><span class="st">&quot;p&quot;</span>,<span class="dt">main=</span><span class="st">&quot;三阶滞后散点图&quot;</span>)</span>
+<span id="cb9-9"><a href="arma模型的一些图像.html#cb9-9"></a><span class="kw">par</span>(opar)</span></code></pre></div>
+<p><img src="TSA-in-R_files/figure-html/unnamed-chunk-8-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>与计算得到的<span class="math inline">\(\rho_k\)</span>基本一致。</p>
 
 </div>
 </div>
