@@ -15,7 +15,7 @@ Y_t = 0.7Y_{t-1}+e_t
 $$
 ```{r}
 y = arima.sim(model=list(ar=c(0.7)), n=100, sd=0.2)
-plot(y)
+plot(y,type="o",cex=0.7)
 ```
 
 ## MA(q)过程
@@ -62,7 +62,7 @@ $$
 模拟时间序列图：
 ```{r ma1-plot-1,fig.cap="MA(1)例1模拟时间序列图"}
 y = arima.sim(model=list(ma=c(0.9)), n=150, sd=1)
-plot(y)
+plot(y,type="o",cex=0.7)
 ```
 
 由图\@ref(fig:1-fig1)，当$\theta$接近-1，一阶自相关系数$\rho_1$接近0.5，表示存在中等强度的正相关，如果一个观测值高于平均值，那么下一个观测值一般也会高于平均值，图形随时间变化比较**平缓**，只是偶尔有比较大的波动。
@@ -92,7 +92,7 @@ $$
 模拟时间序列图：
 ```{r ma1-plot-2,fig.cap="MA(1)例2模拟时间序列图"}
 y = arima.sim(model=list(ma=c(-0.9)), n=150, sd=1)
-plot(y)
+plot(y,type="o",cex=0.7)
 ```
 
 由图\@ref(fig:1-fig1)，当$\theta$接近1，一阶自相关系数$\rho_1$接近-0.5，表示存在中等强度的负相关，如果一个观测值高于平均值，那么下一个观测值一般会低于平均值，图形随时间变化呈**锯齿状**，特别是和图\@ref(fig:ma1-plot-1)相比。
@@ -140,7 +140,7 @@ $$
 模拟时间序列图：
 ```{r ma2-plot-1,fig.cap="MA(2)例1模拟时间序列图"}
 y = arima.sim(model=list(ma=c(-1,0.6)), n=150, sd=1)
-plot(y)
+plot(y,type="o",cex=0.7)
 ```
 
 一阶滞后比较强的负自相关，导致了图像呈现比较明显的锯齿状，围绕均值周围震荡。
@@ -207,16 +207,114 @@ par(opar)
 
 > 关于上图中将数学符号跟变量结合在一起的做法，详见 https://blog.csdn.net/weixin_41929524/article/details/103610743, https://stackoverflow.com/questions/15074127/use-expression-with-a-variable-r
 
+#### 举例1
+
+$$
+Y_t = 0.9Y_{t-1}+e_t
+$$
+
+这里 $\phi=0.9$。
+
+模拟时间序列图：
+```{r ar1-plot-1,fig.cap="AR(1)例1模拟时间序列图"}
+y = arima.sim(model=list(ar=c(0.9)), n=150, sd=1)
+plot(y,type="o",cex=0.7)
+```
+
+由图\@ref(fig:ar1-plot-1)可以看到，图像比较平滑，看起来像是存在某种趋势（这当然是不存在的，均值恒为0），这是因为时间序列由于多期的强相关性而存在大量惯性变化。
+
+#### 举例2
+
+$$
+Y_t = -0.5Y_{t-1}+e_t
+$$
+这里 $\phi=-0.5$。
+
+模拟时间序列图：
+```{r ar1-plot-2,fig.cap="AR(1)例2模拟时间序列图"}
+y = arima.sim(model=list(ar=c(-0.5)), n=150, sd=1)
+plot(y,type="o",cex=0.7)
+```
+
+这个锯齿状就比较好理解了，由于自相关系数的正负交替指数递减，并且先负后正。
+
+### AR(2)
+
+模型表达：
+$$
+Y_t = \phi_1 Y_{t-1}+\phi_2 Y_{t-2}+e_t
+$$
+
+统计特性：
+
+由Yule-Walker方程
+$$
+\rho_k = \phi_1\rho_{k-1}+\phi_2\rho_{k-2},\quad k\ge1
+$$
+导出：
+$$
+\rho_1=\frac{\phi_1}{1-\phi_2},\quad \rho_2=\frac{\phi_2(1-\phi_2)+\phi_1^2}{1-\phi_2}
+$$
+
+不同$\phi_1,\phi_2$下AR(1)的自相关函数：
+
+```{r ar1-rho-2,fig.cap="不同phi下AR(2)的自相关函数",fig.width=8,out.width="80%"}
+opar <- par(no.readonly = T)
+par(mfrow=c(2,2))
+p <- c(0.5,0.25,1.0,-0.25,1.5,-0.75,1.0,-0.6)
+for(i in 1:4) {
+  # 将数学符号跟变量结合在一起
+  m <- bquote(phi[1]~"="~.(p[2*i-1])~phi[2]~"="~.(p[2*i]))  
+  # 生成理论自相关函数
+  y <- ARMAacf(ar = c(p[2*i-1],p[2*i]),lag.max = 12)[-1]  
+  plot(y,xlab = "滞后",ylab = "自相关函数",
+       main = m,type="h")
+  points(y,pch=20)
+  abline(h = 0)
+}
+par(opar)
+```
 
 
+上面所表示的AR(2)模型均满足平稳性:
+$$
+\phi_1+\phi_2<1,\quad \phi_2-\phi_1<1,\quad |\phi_2|<1
+$$
+
+类似于图\@ref(fig:ar1-rho-1)，在实数特征根（$\phi^2_1+4\phi_2\ge0$）下图像依旧是呈指数递减，在复数特征根下图像呈阻尼正弦波动曲线。
+
+> 图\@ref(fig:ar1-rho-1)采用自相关系数的具体公式进行计算绘制，经书本提醒，图\@ref(fig:ar1-rho-2)使用函数`ARMAacf`函数计算理论自相关函数。
+
+#### 举例1
+
+$$
+Y_t = 0.5 Y_{t-1}+0.25 Y_{t-2}+e_t
+$$
+
+这里 $\phi_1=0.5,\phi_2=0.25$。
+
+模拟时间序列图：
+```{r ar2-plot-1,fig.cap="AR(2)例1模拟时间序列图"}
+y = arima.sim(model=list(ar=c(0.5,0.25)), n=150, sd=1)
+plot(y,type="o",cex=0.7)
+```
+
+与图像\@ref(fig:ar1-plot-1)对比一下。
 
 
+#### 举例2
 
+$$
+Y_t = 1.5 Y_{t-1}-0.75 Y_{t-2}+e_t
+$$
 
+这里 $\phi_1=1.5,\phi_2=-0.75$。
 
-
-
-
+模拟时间序列图：
+```{r ar2-plot-2,fig.cap="AR(2)例2模拟时间序列图"}
+y = arima.sim(model=list(ar=c(1.5,-0.75)), n=200, sd=1)
+plot(y,type="o",cex=0.7)
+```
 
 
 
