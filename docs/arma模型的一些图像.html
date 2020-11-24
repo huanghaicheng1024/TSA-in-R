@@ -24,7 +24,7 @@
 <meta name="author" content="Huang" />
 
 
-<meta name="date" content="2020-11-22" />
+<meta name="date" content="2020-11-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -148,6 +148,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3" data-path="arma模型的一些图像.html"><a href="arma模型的一些图像.html#arp过程"><i class="fa fa-check"></i><b>1.3</b> AR(p)过程</a>
 <ul>
 <li class="chapter" data-level="1.3.1" data-path="arma模型的一些图像.html"><a href="arma模型的一些图像.html#ar1"><i class="fa fa-check"></i><b>1.3.1</b> AR(1)</a></li>
+<li class="chapter" data-level="1.3.2" data-path="arma模型的一些图像.html"><a href="arma模型的一些图像.html#ar2"><i class="fa fa-check"></i><b>1.3.2</b> AR(2)</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -181,7 +182,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 Y_t = 0.7Y_{t-1}+e_t
 \]</span></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="arma模型的一些图像.html#cb2-1"></a>y =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ar=</span><span class="kw">c</span>(<span class="fl">0.7</span>)), <span class="dt">n=</span><span class="dv">100</span>, <span class="dt">sd=</span><span class="fl">0.2</span>)</span>
-<span id="cb2-2"><a href="arma模型的一些图像.html#cb2-2"></a><span class="kw">plot</span>(y)</span></code></pre></div>
+<span id="cb2-2"><a href="arma模型的一些图像.html#cb2-2"></a><span class="kw">plot</span>(y,<span class="dt">type=</span><span class="st">&quot;o&quot;</span>,<span class="dt">cex=</span><span class="fl">0.7</span>)</span></code></pre></div>
 <p><img src="TSA-in-R_files/figure-html/unnamed-chunk-5-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="maq过程" class="section level2" number="1.2">
@@ -223,7 +224,7 @@ Y_t = e_t+0.9 e_{t-1}
 这里的 <span class="math inline">\(\theta=-0.9\)</span>。</p>
 <p>模拟时间序列图：</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="arma模型的一些图像.html#cb4-1"></a>y =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ma=</span><span class="kw">c</span>(<span class="fl">0.9</span>)), <span class="dt">n=</span><span class="dv">150</span>, <span class="dt">sd=</span><span class="dv">1</span>)</span>
-<span id="cb4-2"><a href="arma模型的一些图像.html#cb4-2"></a><span class="kw">plot</span>(y)</span></code></pre></div>
+<span id="cb4-2"><a href="arma模型的一些图像.html#cb4-2"></a><span class="kw">plot</span>(y,<span class="dt">type=</span><span class="st">&quot;o&quot;</span>,<span class="dt">cex=</span><span class="fl">0.7</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:ma1-plot-1"></span>
 <img src="TSA-in-R_files/figure-html/ma1-plot-1-1.png" alt="MA(1)例1模拟时间序列图" width="70%" />
 <p class="caption">
@@ -250,7 +251,7 @@ Y_t = e_t-0.9 e_{t-1}
 <p>这里的 <span class="math inline">\(\theta=0.9\)</span>。</p>
 <p>模拟时间序列图：</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="arma模型的一些图像.html#cb6-1"></a>y =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ma=</span><span class="kw">c</span>(<span class="op">-</span><span class="fl">0.9</span>)), <span class="dt">n=</span><span class="dv">150</span>, <span class="dt">sd=</span><span class="dv">1</span>)</span>
-<span id="cb6-2"><a href="arma模型的一些图像.html#cb6-2"></a><span class="kw">plot</span>(y)</span></code></pre></div>
+<span id="cb6-2"><a href="arma模型的一些图像.html#cb6-2"></a><span class="kw">plot</span>(y,<span class="dt">type=</span><span class="st">&quot;o&quot;</span>,<span class="dt">cex=</span><span class="fl">0.7</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:ma1-plot-2"></span>
 <img src="TSA-in-R_files/figure-html/ma1-plot-2-1.png" alt="MA(1)例2模拟时间序列图" width="70%" />
 <p class="caption">
@@ -293,7 +294,7 @@ Y_t = e_t-e_{t-1}+0.6e_{t-2}
 <p>这里的 <span class="math inline">\(\theta_1=1,\theta_2=-0.6\)</span>。从而可以计算 <span class="math inline">\(\rho_1=-0.678,\rho_2=0.254\)</span>。</p>
 <p>模拟时间序列图：</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="arma模型的一些图像.html#cb8-1"></a>y =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ma=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="fl">0.6</span>)), <span class="dt">n=</span><span class="dv">150</span>, <span class="dt">sd=</span><span class="dv">1</span>)</span>
-<span id="cb8-2"><a href="arma模型的一些图像.html#cb8-2"></a><span class="kw">plot</span>(y)</span></code></pre></div>
+<span id="cb8-2"><a href="arma模型的一些图像.html#cb8-2"></a><span class="kw">plot</span>(y,<span class="dt">type=</span><span class="st">&quot;o&quot;</span>,<span class="dt">cex=</span><span class="fl">0.7</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:ma2-plot-1"></span>
 <img src="TSA-in-R_files/figure-html/ma2-plot-1-1.png" alt="MA(2)例1模拟时间序列图" width="70%" />
 <p class="caption">
@@ -360,7 +361,119 @@ Y_t = \phi Y_{t-1}+e_t
 <blockquote>
 <p>关于上图中将数学符号跟变量结合在一起的做法，详见 <a href="https://blog.csdn.net/weixin_41929524/article/details/103610743" class="uri">https://blog.csdn.net/weixin_41929524/article/details/103610743</a>, <a href="https://stackoverflow.com/questions/15074127/use-expression-with-a-variable-r" class="uri">https://stackoverflow.com/questions/15074127/use-expression-with-a-variable-r</a></p>
 </blockquote>
+<div id="举例1-2" class="section level4" number="1.3.1.1">
+<h4><span class="header-section-number">1.3.1.1</span> 举例1</h4>
+<p><span class="math display">\[
+Y_t = 0.9Y_{t-1}+e_t
+\]</span></p>
+<p>这里 <span class="math inline">\(\phi=0.9\)</span>。</p>
+<p>模拟时间序列图：</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="arma模型的一些图像.html#cb11-1"></a>y =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ar=</span><span class="kw">c</span>(<span class="fl">0.9</span>)), <span class="dt">n=</span><span class="dv">150</span>, <span class="dt">sd=</span><span class="dv">1</span>)</span>
+<span id="cb11-2"><a href="arma模型的一些图像.html#cb11-2"></a><span class="kw">plot</span>(y,<span class="dt">type=</span><span class="st">&quot;o&quot;</span>,<span class="dt">cex=</span><span class="fl">0.7</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:ar1-plot-1"></span>
+<img src="TSA-in-R_files/figure-html/ar1-plot-1-1.png" alt="AR(1)例1模拟时间序列图" width="70%" />
+<p class="caption">
+图1.6: AR(1)例1模拟时间序列图
+</p>
+</div>
+<p>由图<a href="arma模型的一些图像.html#fig:ar1-plot-1">1.6</a>可以看到，图像比较平滑，看起来像是存在某种趋势（这当然是不存在的，均值恒为0），这是因为时间序列由于多期的强相关性而存在大量惯性变化。</p>
+</div>
+<div id="举例2-1" class="section level4" number="1.3.1.2">
+<h4><span class="header-section-number">1.3.1.2</span> 举例2</h4>
+<p><span class="math display">\[
+Y_t = -0.5Y_{t-1}+e_t
+\]</span>
+这里 <span class="math inline">\(\phi=-0.5\)</span>。</p>
+<p>模拟时间序列图：</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="arma模型的一些图像.html#cb12-1"></a>y =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ar=</span><span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>)), <span class="dt">n=</span><span class="dv">150</span>, <span class="dt">sd=</span><span class="dv">1</span>)</span>
+<span id="cb12-2"><a href="arma模型的一些图像.html#cb12-2"></a><span class="kw">plot</span>(y,<span class="dt">type=</span><span class="st">&quot;o&quot;</span>,<span class="dt">cex=</span><span class="fl">0.7</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:ar1-plot-2"></span>
+<img src="TSA-in-R_files/figure-html/ar1-plot-2-1.png" alt="AR(1)例2模拟时间序列图" width="70%" />
+<p class="caption">
+图1.7: AR(1)例2模拟时间序列图
+</p>
+</div>
+<p>这个锯齿状就比较好理解了，由于自相关系数的正负交替指数递减，并且先负后正。</p>
+</div>
+</div>
+<div id="ar2" class="section level3" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> AR(2)</h3>
+<p>模型表达：
+<span class="math display">\[
+Y_t = \phi_1 Y_{t-1}+\phi_2 Y_{t-2}+e_t
+\]</span></p>
+<p>统计特性：</p>
+<p>由Yule-Walker方程
+<span class="math display">\[
+\rho_k = \phi_1\rho_{k-1}+\phi_2\rho_{k-2},\quad k\ge1
+\]</span>
+导出：
+<span class="math display">\[
+\rho_1=\frac{\phi_1}{1-\phi_2},\quad \rho_2=\frac{\phi_2(1-\phi_2)+\phi_1^2}{1-\phi_2}
+\]</span></p>
+<p>不同<span class="math inline">\(\phi_1,\phi_2\)</span>下AR(1)的自相关函数：</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="arma模型的一些图像.html#cb13-1"></a>opar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">no.readonly =</span> T)</span>
+<span id="cb13-2"><a href="arma模型的一些图像.html#cb13-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb13-3"><a href="arma模型的一些图像.html#cb13-3"></a>p &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>,<span class="fl">0.25</span>,<span class="fl">1.0</span>,<span class="op">-</span><span class="fl">0.25</span>,<span class="fl">1.5</span>,<span class="op">-</span><span class="fl">0.75</span>,<span class="fl">1.0</span>,<span class="op">-</span><span class="fl">0.6</span>)</span>
+<span id="cb13-4"><a href="arma模型的一些图像.html#cb13-4"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>) {</span>
+<span id="cb13-5"><a href="arma模型的一些图像.html#cb13-5"></a>  <span class="co"># 将数学符号跟变量结合在一起</span></span>
+<span id="cb13-6"><a href="arma模型的一些图像.html#cb13-6"></a>  m &lt;-<span class="st"> </span><span class="kw">bquote</span>(phi[<span class="dv">1</span>]<span class="op">~</span><span class="st">&quot;=&quot;</span><span class="op">~</span>.(p[<span class="dv">2</span><span class="op">*</span>i<span class="dv">-1</span>])<span class="op">~</span>phi[<span class="dv">2</span>]<span class="op">~</span><span class="st">&quot;=&quot;</span><span class="op">~</span>.(p[<span class="dv">2</span><span class="op">*</span>i]))  </span>
+<span id="cb13-7"><a href="arma模型的一些图像.html#cb13-7"></a>  <span class="co"># 生成理论自相关函数</span></span>
+<span id="cb13-8"><a href="arma模型的一些图像.html#cb13-8"></a>  y &lt;-<span class="st"> </span><span class="kw">ARMAacf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(p[<span class="dv">2</span><span class="op">*</span>i<span class="dv">-1</span>],p[<span class="dv">2</span><span class="op">*</span>i]),<span class="dt">lag.max =</span> <span class="dv">12</span>)[<span class="op">-</span><span class="dv">1</span>]  </span>
+<span id="cb13-9"><a href="arma模型的一些图像.html#cb13-9"></a>  <span class="kw">plot</span>(y,<span class="dt">xlab =</span> <span class="st">&quot;滞后&quot;</span>,<span class="dt">ylab =</span> <span class="st">&quot;自相关函数&quot;</span>,</span>
+<span id="cb13-10"><a href="arma模型的一些图像.html#cb13-10"></a>       <span class="dt">main =</span> m,<span class="dt">type=</span><span class="st">&quot;h&quot;</span>)</span>
+<span id="cb13-11"><a href="arma模型的一些图像.html#cb13-11"></a>  <span class="kw">points</span>(y,<span class="dt">pch=</span><span class="dv">20</span>)</span>
+<span id="cb13-12"><a href="arma模型的一些图像.html#cb13-12"></a>  <span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>)</span>
+<span id="cb13-13"><a href="arma模型的一些图像.html#cb13-13"></a>}</span>
+<span id="cb13-14"><a href="arma模型的一些图像.html#cb13-14"></a><span class="kw">par</span>(opar)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:ar1-rho-2"></span>
+<img src="TSA-in-R_files/figure-html/ar1-rho-2-1.png" alt="不同phi下AR(2)的自相关函数" width="80%" />
+<p class="caption">
+图1.8: 不同phi下AR(2)的自相关函数
+</p>
+</div>
+<p>上面所表示的AR(2)模型均满足平稳性:
+<span class="math display">\[
+\phi_1+\phi_2&lt;1,\quad \phi_2-\phi_1&lt;1,\quad |\phi_2|&lt;1
+\]</span></p>
+<p>类似于图<a href="arma模型的一些图像.html#fig:ar1-rho-1">1.5</a>，在实数特征根（<span class="math inline">\(\phi^2_1+4\phi_2\ge0\)</span>）下图像依旧是呈指数递减，在复数特征根下图像呈阻尼正弦波动曲线。</p>
+<blockquote>
+<p>图<a href="arma模型的一些图像.html#fig:ar1-rho-1">1.5</a>采用自相关系数的具体公式进行计算绘制，经书本提醒，图<a href="arma模型的一些图像.html#fig:ar1-rho-2">1.8</a>使用函数<code>ARMAacf</code>函数计算理论自相关函数。</p>
+</blockquote>
+<div id="举例1-3" class="section level4" number="1.3.2.1">
+<h4><span class="header-section-number">1.3.2.1</span> 举例1</h4>
+<p><span class="math display">\[
+Y_t = 0.5 Y_{t-1}+0.25 Y_{t-2}+e_t
+\]</span></p>
+<p>这里 <span class="math inline">\(\phi_1=0.5,\phi_2=0.25\)</span>。</p>
+<p>模拟时间序列图：</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="arma模型的一些图像.html#cb14-1"></a>y =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ar=</span><span class="kw">c</span>(<span class="fl">0.5</span>,<span class="fl">0.25</span>)), <span class="dt">n=</span><span class="dv">150</span>, <span class="dt">sd=</span><span class="dv">1</span>)</span>
+<span id="cb14-2"><a href="arma模型的一些图像.html#cb14-2"></a><span class="kw">plot</span>(y,<span class="dt">type=</span><span class="st">&quot;o&quot;</span>,<span class="dt">cex=</span><span class="fl">0.7</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:ar2-plot-1"></span>
+<img src="TSA-in-R_files/figure-html/ar2-plot-1-1.png" alt="AR(2)例1模拟时间序列图" width="70%" />
+<p class="caption">
+图1.9: AR(2)例1模拟时间序列图
+</p>
+</div>
+<p>与图像<a href="arma模型的一些图像.html#fig:ar1-plot-1">1.6</a>对比一下。</p>
+</div>
+<div id="举例2-2" class="section level4" number="1.3.2.2">
+<h4><span class="header-section-number">1.3.2.2</span> 举例2</h4>
+<p><span class="math display">\[
+Y_t = 1.5 Y_{t-1}-0.75 Y_{t-2}+e_t
+\]</span></p>
+<p>这里 <span class="math inline">\(\phi_1=1.5,\phi_2=-0.75\)</span>。</p>
+<p>模拟时间序列图：</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="arma模型的一些图像.html#cb15-1"></a>y =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ar=</span><span class="kw">c</span>(<span class="fl">1.5</span>,<span class="op">-</span><span class="fl">0.75</span>)), <span class="dt">n=</span><span class="dv">200</span>, <span class="dt">sd=</span><span class="dv">1</span>)</span>
+<span id="cb15-2"><a href="arma模型的一些图像.html#cb15-2"></a><span class="kw">plot</span>(y,<span class="dt">type=</span><span class="st">&quot;o&quot;</span>,<span class="dt">cex=</span><span class="fl">0.7</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:ar2-plot-2"></span>
+<img src="TSA-in-R_files/figure-html/ar2-plot-2-1.png" alt="AR(2)例2模拟时间序列图" width="70%" />
+<p class="caption">
+图1.10: AR(2)例2模拟时间序列图
+</p>
+</div>
 
+</div>
 </div>
 </div>
 </div>
