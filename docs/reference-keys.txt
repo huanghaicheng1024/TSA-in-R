@@ -8,6 +8,9 @@ fig:ar1-plot-2
 fig:ar1-rho-2
 fig:ar2-plot-1
 fig:ar2-plot-2
+fig:ima11-plot-1
+fig:ima22-plot-1
+fig:ari11-plot-1
 arma模型的一些图像
 模拟arima
 maq过程
@@ -23,3 +26,12 @@ ar1
 ar2
 举例1-3
 举例2-2
+arima模型的一些图像
+imadq过程
+ima11
+举例1-4
+ima22
+举例1-5
+aripd过程
+ari11
+举例1-6
