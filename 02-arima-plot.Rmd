@@ -1,0 +1,134 @@
+# ARIMA模型的一些图像
+
+```{r}
+library(TSA)
+```
+
+## IMA(d,q)过程
+
+### IMA(1,1)
+
+模型表达：
+$$
+W_t = Y_t-Y_{t-1},\quad W_t=e_t-\theta e_{t-1}
+$$
+
+也即是
+$$
+Y_t=Y_{t-1}+e_t-\theta e_{t-1}
+$$
+
+统计特性：
+$$
+\mathrm{Var}(Y_t) = [1+\theta^2+(1-\theta)^2(t+m)]\sigma^2_e
+$$
+其中 $t=-m$ 为序列的首次观测时间。上式表示方差会随着时间无限增大。
+
+对于较大的 $m$ 以及中等大小的 $k$：
+$$
+\mathrm{Corr}(Y_t,Y_{t-k})\approx1
+$$
+
+上式表示 $Y_t,Y_{t-k}$ 呈高度正相关。
+
+#### 举例1
+
+$$
+Y_t=Y_{t-1}+e_t-0.8 e_{t-1}
+$$
+
+模拟时间序列图：
+```{r ima11-plot-1,fig.cap="IMA(1,1)例1模拟时间序列图"}
+y = arima.sim(model=list(order=c(0,1,1),ma=c(-0.8)), n=200, sd=1)
+plot(y,type="o",cex=0.7)
+```
+
+因为方差的逐渐增大以及邻近相关系数的强相关性导致的图像像是有一定的趋势。
+
+一次差分之后可以得到：
+```{r}
+plot(diff(y),type="o",cex=0.7,ylab="一次差分")
+```
+
+与图\@ref(fig:ma1-plot-2)非常地类似。
+
+### IMA(2,2)
+
+模型表达：
+$$
+W_t = Y_t-2Y_{t-1}+Y_{t-2},\quad W_t=e_t-\theta_1 e_{t-1}-\theta_2e_{t-2}
+$$
+
+也即是
+$$
+Y_t=2Y_{t-1}-Y_{t-2}+e_t-\theta_1 e_{t-1}-\theta_2e_{t-2}
+$$
+
+统计特性：
+
+类似于IMA(1,1)，$Y_t$ 的方差会随着时间迅速无限增长，对于所有中等大小的 $k$ ，$\mathrm{Corr}(Y_t,Y_{t-k})\approx1$。
+
+#### 举例1
+
+$$
+Y_t=2Y_{t-1}-Y_{t-2}+e_t-e_{t-1}+0.6e_{t-2}
+$$
+
+模拟时间序列图：
+```{r ima22-plot-1,fig.cap="IMA(2,2)例1模拟时间序列图"}
+y = arima.sim(model=list(order=c(0,2,2),ma=c(-1,0.6)), n=200, sd=1)
+plot(y,type="o",cex=0.7)
+```
+
+图像非常地平滑！同样也是由于方差的逐渐增大以及邻近相关系数的强相关性所导致。
+
+一次差分：
+```{r}
+plot(diff(y),type="o",cex=0.7,ylab="一次差分")
+```
+
+二次差分：
+```{r}
+plot(diff(y,differences = 2),type="o",cex=0.7,ylab="二次差分")
+```
+
+这是平稳的MA(2)序列，与图\@ref(fig:ma2-plot-1)比较。
+
+## ARI(p,d)过程
+
+### ARI(1,1)
+
+模型表达：
+$$
+W_t = Y_t-Y_{t-1},\quad W_t = \phi W_{t-1}+e_t
+$$
+
+也即是
+$$
+Y_t = (1+\phi)Y_{t-1}-\phi Y_{t-2}+e_t
+$$
+
+#### 举例1
+
+$$
+Y_t = (1+0.8)Y_{t-1}-0.8 Y_{t-2}+e_t
+$$
+
+模拟时间序列图：
+```{r ari11-plot-1,fig.cap="ARI(1,1)例1模拟时间序列图"}
+y = arima.sim(model=list(order=c(1,1,0),ar=c(0.8)), n=200, sd=1)
+plot(y,type="o",cex=0.7)
+```
+
+同样是非常地平滑。
+
+一次差分：
+```{r}
+plot(diff(y),type="o",cex=0.7,ylab="一次差分")
+```
+
+这是一个稳定的AR(1)序列。
+
+
+
+
