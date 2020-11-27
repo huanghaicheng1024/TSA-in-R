@@ -1,7 +1,8 @@
-# ARIMA模型的一些图像
+# ARIMA模型的一些图像 {#arima-plot}
 
 ```{r}
 library(TSA)
+set.seed(1014)
 ```
 
 ## IMA(d,q)过程
@@ -128,6 +129,32 @@ plot(diff(y),type="o",cex=0.7,ylab="一次差分")
 ```
 
 这是一个稳定的AR(1)序列。
+
+## 一般ARIMA过程
+
+```{r arima-plot-1,fig.cap="原油月度价格：1986.1-2006.1"}
+data("oil.price")
+plot(oil.price,ylab="每桶价格")
+```
+
+作对数差分变换：
+```{r}
+plot(diff(log(oil.price)),
+     main="石油价格序列取对数后的差分序列图")
+```
+
+看起来比之前平稳多了。
+
+```{r arima-plot-2,fig.cap="美国月度发电量"}
+data("electricity")
+plot(electricity)
+```
+
+作对数差分变换：
+```{r}
+plot(diff(log(electricity)),
+     main="发电量取对数后的差分序列图")
+```
 
 
 
