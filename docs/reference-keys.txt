@@ -11,7 +11,9 @@ fig:ar2-plot-2
 fig:ima11-plot-1
 fig:ima22-plot-1
 fig:ari11-plot-1
-arma模型的一些图像
+fig:arima-plot-1
+fig:arima-plot-2
+arma-plot
 模拟arima
 maq过程
 ma1
@@ -26,7 +28,7 @@ ar1
 ar2
 举例1-3
 举例2-2
-arima模型的一些图像
+arima-plot
 imadq过程
 ima11
 举例1-4
@@ -35,3 +37,13 @@ ima22
 aripd过程
 ari11
 举例1-6
+一般arima过程
+model-recognition
+主要方法
+实践操作
+例1
+例2
+例3
+例4
+例5
+非平稳性模型

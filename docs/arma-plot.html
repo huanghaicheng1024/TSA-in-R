@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>1 ARMA模型的一些图像 | TSA in R 学习笔记</title>
+  <meta name="description" content="这是使用bookdwon编写的书籍。" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="1 ARMA模型的一些图像 | TSA in R 学习笔记" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="这是使用bookdwon编写的书籍。" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="1 ARMA模型的一些图像 | TSA in R 学习笔记" />
+  
+  <meta name="twitter:description" content="这是使用bookdwon编写的书籍。" />
+  
+
+<meta name="author" content="Huang" />
+
+
+<meta name="date" content="2020-11-27" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="arima-plot.html"/>
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./index.html">TSA in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>背景</a></li>
+<li class="chapter" data-level="1" data-path="arma-plot.html"><a href="arma-plot.html"><i class="fa fa-check"></i><b>1</b> ARMA模型的一些图像</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="arma-plot.html"><a href="arma-plot.html#模拟arima"><i class="fa fa-check"></i><b>1.1</b> 模拟ARIMA</a></li>
+<li class="chapter" data-level="1.2" data-path="arma-plot.html"><a href="arma-plot.html#maq过程"><i class="fa fa-check"></i><b>1.2</b> MA(q)过程</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="arma-plot.html"><a href="arma-plot.html#ma1"><i class="fa fa-check"></i><b>1.2.1</b> MA(1)</a></li>
+<li class="chapter" data-level="1.2.2" data-path="arma-plot.html"><a href="arma-plot.html#ma2"><i class="fa fa-check"></i><b>1.2.2</b> MA(2)</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="arma-plot.html"><a href="arma-plot.html#arp过程"><i class="fa fa-check"></i><b>1.3</b> AR(p)过程</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="arma-plot.html"><a href="arma-plot.html#ar1"><i class="fa fa-check"></i><b>1.3.1</b> AR(1)</a></li>
+<li class="chapter" data-level="1.3.2" data-path="arma-plot.html"><a href="arma-plot.html#ar2"><i class="fa fa-check"></i><b>1.3.2</b> AR(2)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="arima-plot.html"><a href="arima-plot.html"><i class="fa fa-check"></i><b>2</b> ARIMA模型的一些图像</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="arima-plot.html"><a href="arima-plot.html#imadq过程"><i class="fa fa-check"></i><b>2.1</b> IMA(d,q)过程</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="arima-plot.html"><a href="arima-plot.html#ima11"><i class="fa fa-check"></i><b>2.1.1</b> IMA(1,1)</a></li>
+<li class="chapter" data-level="2.1.2" data-path="arima-plot.html"><a href="arima-plot.html#ima22"><i class="fa fa-check"></i><b>2.1.2</b> IMA(2,2)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="arima-plot.html"><a href="arima-plot.html#aripd过程"><i class="fa fa-check"></i><b>2.2</b> ARI(p,d)过程</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="arima-plot.html"><a href="arima-plot.html#ari11"><i class="fa fa-check"></i><b>2.2.1</b> ARI(1,1)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="arima-plot.html"><a href="arima-plot.html#一般arima过程"><i class="fa fa-check"></i><b>2.3</b> 一般ARIMA过程</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="model-recognition.html"><a href="model-recognition.html"><i class="fa fa-check"></i><b>3</b> 模型识别</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="model-recognition.html"><a href="model-recognition.html#主要方法"><i class="fa fa-check"></i><b>3.1</b> 主要方法</a></li>
+<li class="chapter" data-level="3.2" data-path="model-recognition.html"><a href="model-recognition.html#实践操作"><i class="fa fa-check"></i><b>3.2</b> 实践操作</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="model-recognition.html"><a href="model-recognition.html#例1"><i class="fa fa-check"></i><b>3.2.1</b> 例1</a></li>
+<li class="chapter" data-level="3.2.2" data-path="model-recognition.html"><a href="model-recognition.html#例2"><i class="fa fa-check"></i><b>3.2.2</b> 例2</a></li>
+<li class="chapter" data-level="3.2.3" data-path="model-recognition.html"><a href="model-recognition.html#例3"><i class="fa fa-check"></i><b>3.2.3</b> 例3</a></li>
+<li class="chapter" data-level="3.2.4" data-path="model-recognition.html"><a href="model-recognition.html#例4"><i class="fa fa-check"></i><b>3.2.4</b> 例4</a></li>
+<li class="chapter" data-level="3.2.5" data-path="model-recognition.html"><a href="model-recognition.html#例5"><i class="fa fa-check"></i><b>3.2.5</b> 例5</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="model-recognition.html"><a href="model-recognition.html#非平稳性模型"><i class="fa fa-check"></i><b>3.3</b> 非平稳性模型</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="blank">本书由 bookdown 强力驱动</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">TSA in R 学习笔记</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="arma-plot" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> ARMA模型的一些图像</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="arma-plot.html#cb1-1"></a><span class="kw">library</span>(TSA)</span>
+<span id="cb1-2"><a href="arma-plot.html#cb1-2"></a><span class="kw">set.seed</span>(<span class="dv">1014</span>)</span></code></pre></div>
+<div id="模拟arima" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> 模拟ARIMA</h2>
+<p>可以使用R自带的函数<code>arima.sim</code>来模拟生成ARIMA模型数据。</p>
+<p>例如AR(1):</p>
+<p><span class="math display">\[
+Y_t = 0.7Y_{t-1}+e_t
+\]</span></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="arma-plot.html#cb2-1"></a>y =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ar=</span><span class="kw">c</span>(<span class="fl">0.7</span>)), <span class="dt">n=</span><span class="dv">100</span>, <span class="dt">sd=</span><span class="fl">0.2</span>)</span>
+<span id="cb2-2"><a href="arma-plot.html#cb2-2"></a><span class="kw">plot</span>(y,<span class="dt">type=</span><span class="st">&quot;o&quot;</span>,<span class="dt">cex=</span><span class="fl">0.7</span>)</span></code></pre></div>
+<p><img src="TSA-in-R_files/figure-html/unnamed-chunk-5-1.png" width="70%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="maq过程" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> MA(q)过程</h2>
+<p><span class="math display">\[
+Y_t = e_t-\theta_1e_{t-1}-\theta_2e_{t-2}-\cdots-\theta_qe_{t-q}
+\]</span>
+<strong>注意：</strong>这里的表达式每个<span class="math inline">\(\theta\)</span>前面都是负号，但在R里面的系数指的是 <span class="math inline">\(-\theta\)</span>。</p>
+<div id="ma1" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> MA(1)</h3>
+<p>模型表达：
+<span class="math display">\[
+Y_t = e_t-\theta e_{t-1}
+\]</span></p>
+<p>统计特性：
+<span class="math display">\[
+\gamma_0=\sigma_e^2(1+\theta^2),\quad \gamma_1 = -\theta\sigma_e^2,\quad 
+\gamma_k=0(k\ge2)
+\]</span></p>
+<p><span class="math display">\[
+\rho_1=(-\theta)/(1+\theta^2),\quad 
+\rho_k=0(k\ge2)
+\]</span></p>
+<p>不同<span class="math inline">\(\theta\)</span>下MA(1)的一阶滞后自相关函数：</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="arma-plot.html#cb3-1"></a>theta &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="fl">0.1</span>)</span>
+<span id="cb3-2"><a href="arma-plot.html#cb3-2"></a>rho &lt;-<span class="st"> </span>(<span class="op">-</span>theta)<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span>theta<span class="op">^</span><span class="dv">2</span>)</span>
+<span id="cb3-3"><a href="arma-plot.html#cb3-3"></a><span class="kw">plot</span>(theta,rho,<span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:1-fig1"></span>
+<img src="TSA-in-R_files/figure-html/1-fig1-1.png" alt="不同theta下MA(1)的一阶滞后自相关函数" width="70%" />
+<p class="caption">
+图1.1: 不同theta下MA(1)的一阶滞后自相关函数
+</p>
+</div>
+<div id="举例1" class="section level4" number="1.2.1.1">
+<h4><span class="header-section-number">1.2.1.1</span> 举例1</h4>
+<p><span class="math display">\[
+Y_t = e_t+0.9 e_{t-1}
+\]</span>
+这里的 <span class="math inline">\(\theta=-0.9\)</span>。</p>
+<p>模拟时间序列图：</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="arma-plot.html#cb4-1"></a>y =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ma=</span><span class="kw">c</span>(<span class="fl">0.9</span>)), <span class="dt">n=</span><span class="dv">150</span>, <span class="dt">sd=</span><span class="dv">1</span>)</span>
+<span id="cb4-2"><a href="arma-plot.html#cb4-2"></a><span class="kw">plot</span>(y,<span class="dt">type=</span><span class="st">&quot;o&quot;</span>,<span class="dt">cex=</span><span class="fl">0.7</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:ma1-plot-1"></span>
+<img src="TSA-in-R_files/figure-html/ma1-plot-1-1.png" alt="MA(1)例1模拟时间序列图" width="70%" />
+<p class="caption">
+图1.2: MA(1)例1模拟时间序列图
+</p>
+</div>
+<p>由图<a href="arma-plot.html#fig:1-fig1">1.1</a>，当<span class="math inline">\(\theta\)</span>接近-1，一阶自相关系数<span class="math inline">\(\rho_1\)</span>接近0.5，表示存在中等强度的正相关，如果一个观测值高于平均值，那么下一个观测值一般也会高于平均值，图形随时间变化比较<strong>平缓</strong>，只是偶尔有比较大的波动。</p>
+<p>滞后散点图：</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="arma-plot.html#cb5-1"></a>opar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">no.readonly =</span> T)</span>
+<span id="cb5-2"><a href="arma-plot.html#cb5-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb5-3"><a href="arma-plot.html#cb5-3"></a><span class="kw">plot</span>(<span class="kw">zlag</span>(y),y,<span class="dt">ylab=</span><span class="kw">expression</span>(Y[t]),<span class="dt">xlab=</span><span class="kw">expression</span>(Y[t<span class="dv">-1</span>]),</span>
+<span id="cb5-4"><a href="arma-plot.html#cb5-4"></a>     <span class="dt">type=</span><span class="st">&quot;p&quot;</span>,<span class="dt">main=</span><span class="st">&quot;一阶滞后散点图&quot;</span>)</span>
+<span id="cb5-5"><a href="arma-plot.html#cb5-5"></a><span class="kw">plot</span>(<span class="kw">zlag</span>(y,<span class="dv">2</span>),y,<span class="dt">ylab=</span><span class="kw">expression</span>(Y[t]),<span class="dt">xlab=</span><span class="kw">expression</span>(Y[t<span class="dv">-2</span>]),</span>
+<span id="cb5-6"><a href="arma-plot.html#cb5-6"></a>     <span class="dt">type=</span><span class="st">&quot;p&quot;</span>,<span class="dt">main=</span><span class="st">&quot;二阶滞后散点图&quot;</span>)</span></code></pre></div>
+<p><img src="TSA-in-R_files/figure-html/unnamed-chunk-6-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>左图相关性明显，右图相关性不明显。即一阶滞后自相关明显，二阶滞后自相关不明显，与前面提到的统计特性一致。</p>
+</div>
+<div id="举例2" class="section level4" number="1.2.1.2">
+<h4><span class="header-section-number">1.2.1.2</span> 举例2</h4>
+<p>如果说图<a href="arma-plot.html#fig:ma1-plot-1">1.2</a>的“平缓性”不明显，那我们就来个对比伤害吧。</p>
+<p><span class="math display">\[
+Y_t = e_t-0.9 e_{t-1}
+\]</span></p>
+<p>这里的 <span class="math inline">\(\theta=0.9\)</span>。</p>
+<p>模拟时间序列图：</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="arma-plot.html#cb6-1"></a>y =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ma=</span><span class="kw">c</span>(<span class="op">-</span><span class="fl">0.9</span>)), <span class="dt">n=</span><span class="dv">150</span>, <span class="dt">sd=</span><span class="dv">1</span>)</span>
+<span id="cb6-2"><a href="arma-plot.html#cb6-2"></a><span class="kw">plot</span>(y,<span class="dt">type=</span><span class="st">&quot;o&quot;</span>,<span class="dt">cex=</span><span class="fl">0.7</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:ma1-plot-2"></span>
+<img src="TSA-in-R_files/figure-html/ma1-plot-2-1.png" alt="MA(1)例2模拟时间序列图" width="70%" />
+<p class="caption">
+图1.3: MA(1)例2模拟时间序列图
+</p>
+</div>
+<p>由图<a href="arma-plot.html#fig:1-fig1">1.1</a>，当<span class="math inline">\(\theta\)</span>接近1，一阶自相关系数<span class="math inline">\(\rho_1\)</span>接近-0.5，表示存在中等强度的负相关，如果一个观测值高于平均值，那么下一个观测值一般会低于平均值，图形随时间变化呈<strong>锯齿状</strong>，特别是和图<a href="arma-plot.html#fig:ma1-plot-1">1.2</a>相比。</p>
+<p>滞后散点图：</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="arma-plot.html#cb7-1"></a>opar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">no.readonly =</span> T)</span>
+<span id="cb7-2"><a href="arma-plot.html#cb7-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb7-3"><a href="arma-plot.html#cb7-3"></a><span class="kw">plot</span>(<span class="kw">zlag</span>(y),y,<span class="dt">ylab=</span><span class="kw">expression</span>(Y[t]),<span class="dt">xlab=</span><span class="kw">expression</span>(Y[t<span class="dv">-1</span>]),</span>
+<span id="cb7-4"><a href="arma-plot.html#cb7-4"></a>     <span class="dt">type=</span><span class="st">&quot;p&quot;</span>,<span class="dt">main=</span><span class="st">&quot;一阶滞后散点图&quot;</span>)</span>
+<span id="cb7-5"><a href="arma-plot.html#cb7-5"></a><span class="kw">plot</span>(<span class="kw">zlag</span>(y,<span class="dv">2</span>),y,<span class="dt">ylab=</span><span class="kw">expression</span>(Y[t]),<span class="dt">xlab=</span><span class="kw">expression</span>(Y[t<span class="dv">-2</span>]),</span>
+<span id="cb7-6"><a href="arma-plot.html#cb7-6"></a>     <span class="dt">type=</span><span class="st">&quot;p&quot;</span>,<span class="dt">main=</span><span class="st">&quot;二阶滞后散点图&quot;</span>)</span></code></pre></div>
+<p><img src="TSA-in-R_files/figure-html/unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>左图相关性明显，右图相关性不明显。即一阶滞后自相关明显，二阶滞后自相关不明显，与前面提到的统计特性一致。</p>
+</div>
+</div>
+<div id="ma2" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> MA(2)</h3>
+<p>模型表达：
+<span class="math display">\[
+Y_t = e_t-\theta_1e_{t-1}-\theta_2e_{t-2}
+\]</span></p>
+<p>统计特性：
+<span class="math display">\[
+\gamma_0=\sigma_e^2(1+\theta_1^2+\theta_2^2),\quad \gamma_1 = (-\theta+\theta_1\theta_2)\sigma_e^2,\quad 
+\gamma_2=-\theta_2\sigma^2_e
+\]</span></p>
+<p><span class="math display">\[
+\rho_1=\frac{-\theta_1+\theta_1\theta_2}{1+\theta_1^2+\theta_2^2},\quad 
+\rho_k=\frac{-\theta_2}{1+\theta_1^2+\theta_2^2},\quad
+\rho_k=0(k\ge3)
+\]</span></p>
+<div id="举例1-1" class="section level4" number="1.2.2.1">
+<h4><span class="header-section-number">1.2.2.1</span> 举例1</h4>
+<p><span class="math display">\[
+Y_t = e_t-e_{t-1}+0.6e_{t-2}
+\]</span></p>
+<p>这里的 <span class="math inline">\(\theta_1=1,\theta_2=-0.6\)</span>。从而可以计算 <span class="math inline">\(\rho_1=-0.678,\rho_2=0.254\)</span>。</p>
+<p>模拟时间序列图：</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="arma-plot.html#cb8-1"></a>y =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ma=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="fl">0.6</span>)), <span class="dt">n=</span><span class="dv">150</span>, <span class="dt">sd=</span><span class="dv">1</span>)</span>
+<span id="cb8-2"><a href="arma-plot.html#cb8-2"></a><span class="kw">plot</span>(y,<span class="dt">type=</span><span class="st">&quot;o&quot;</span>,<span class="dt">cex=</span><span class="fl">0.7</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:ma2-plot-1"></span>
+<img src="TSA-in-R_files/figure-html/ma2-plot-1-1.png" alt="MA(2)例1模拟时间序列图" width="70%" />
+<p class="caption">
+图1.4: MA(2)例1模拟时间序列图
+</p>
+</div>
+<p>一阶滞后比较强的负自相关，导致了图像呈现比较明显的锯齿状，围绕均值周围震荡。</p>
+<p>滞后散点图：</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="arma-plot.html#cb9-1"></a>opar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">no.readonly =</span> T)</span>
+<span id="cb9-2"><a href="arma-plot.html#cb9-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb9-3"><a href="arma-plot.html#cb9-3"></a><span class="kw">plot</span>(<span class="kw">zlag</span>(y),y,<span class="dt">ylab=</span><span class="kw">expression</span>(Y[t]),<span class="dt">xlab=</span><span class="kw">expression</span>(Y[t<span class="dv">-1</span>]),</span>
+<span id="cb9-4"><a href="arma-plot.html#cb9-4"></a>     <span class="dt">type=</span><span class="st">&quot;p&quot;</span>,<span class="dt">main=</span><span class="st">&quot;一阶滞后散点图&quot;</span>)</span>
+<span id="cb9-5"><a href="arma-plot.html#cb9-5"></a><span class="kw">plot</span>(<span class="kw">zlag</span>(y,<span class="dv">2</span>),y,<span class="dt">ylab=</span><span class="kw">expression</span>(Y[t]),<span class="dt">xlab=</span><span class="kw">expression</span>(Y[t<span class="dv">-2</span>]),</span>
+<span id="cb9-6"><a href="arma-plot.html#cb9-6"></a>     <span class="dt">type=</span><span class="st">&quot;p&quot;</span>,<span class="dt">main=</span><span class="st">&quot;二阶滞后散点图&quot;</span>)</span>
+<span id="cb9-7"><a href="arma-plot.html#cb9-7"></a><span class="kw">plot</span>(<span class="kw">zlag</span>(y,<span class="dv">3</span>),y,<span class="dt">ylab=</span><span class="kw">expression</span>(Y[t]),<span class="dt">xlab=</span><span class="kw">expression</span>(Y[t<span class="dv">-3</span>]),</span>
+<span id="cb9-8"><a href="arma-plot.html#cb9-8"></a>     <span class="dt">type=</span><span class="st">&quot;p&quot;</span>,<span class="dt">main=</span><span class="st">&quot;三阶滞后散点图&quot;</span>)</span>
+<span id="cb9-9"><a href="arma-plot.html#cb9-9"></a><span class="kw">par</span>(opar)</span></code></pre></div>
+<p><img src="TSA-in-R_files/figure-html/unnamed-chunk-8-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>与计算得到的<span class="math inline">\(\rho_k\)</span>基本一致。</p>
+</div>
+</div>
+</div>
+<div id="arp过程" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> AR(p)过程</h2>
+<p><span class="math display">\[
+Y_t = \phi_1Y_{t-1}+\phi_2Y_{t-2}+\cdots+\phi_pY_{t-p}+e_t
+\]</span></p>
+<div id="ar1" class="section level3" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> AR(1)</h3>
+<p>模型表达：
+<span class="math display">\[
+Y_t = \phi Y_{t-1}+e_t
+\]</span></p>
+<p>统计特性：
+<span class="math display">\[
+\gamma_0=\frac{\sigma_e^2}{1-\phi^2},\quad 
+\gamma_k=\phi\gamma_{k-1}(k\ge1)
+\]</span></p>
+<p><span class="math display">\[
+\rho_k=\phi^k(k\ge1)
+\]</span></p>
+<p>不同<span class="math inline">\(\phi\)</span>下AR(1)的自相关函数：</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="arma-plot.html#cb10-1"></a>opar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">no.readonly =</span> T)</span>
+<span id="cb10-2"><a href="arma-plot.html#cb10-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb10-3"><a href="arma-plot.html#cb10-3"></a>p &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.9</span>,<span class="fl">0.4</span>,<span class="op">-</span><span class="fl">0.8</span>,<span class="op">-</span><span class="fl">0.5</span>)</span>
+<span id="cb10-4"><a href="arma-plot.html#cb10-4"></a>k &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">15</span>,<span class="dv">1</span>)</span>
+<span id="cb10-5"><a href="arma-plot.html#cb10-5"></a><span class="cf">for</span>(i <span class="cf">in</span> p) {</span>
+<span id="cb10-6"><a href="arma-plot.html#cb10-6"></a>  m &lt;-<span class="st"> </span><span class="kw">bquote</span>(phi<span class="op">~</span><span class="st">&quot;=&quot;</span><span class="op">~</span>.(i))  <span class="co"># 将数学符号跟变量结合在一起</span></span>
+<span id="cb10-7"><a href="arma-plot.html#cb10-7"></a>  y =<span class="st"> </span>i<span class="op">^</span>k</span>
+<span id="cb10-8"><a href="arma-plot.html#cb10-8"></a>  <span class="kw">plot</span>(k,y,<span class="dt">xlab =</span> <span class="st">&quot;滞后&quot;</span>,<span class="dt">ylab =</span> <span class="st">&quot;自相关函数&quot;</span>,</span>
+<span id="cb10-9"><a href="arma-plot.html#cb10-9"></a>       <span class="dt">main =</span> m,<span class="dt">type=</span><span class="st">&quot;h&quot;</span>)</span>
+<span id="cb10-10"><a href="arma-plot.html#cb10-10"></a>  <span class="kw">points</span>(k,y,<span class="dt">pch=</span><span class="dv">20</span>)</span>
+<span id="cb10-11"><a href="arma-plot.html#cb10-11"></a>  <span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>)</span>
+<span id="cb10-12"><a href="arma-plot.html#cb10-12"></a>}</span>
+<span id="cb10-13"><a href="arma-plot.html#cb10-13"></a><span class="kw">par</span>(opar)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:ar1-rho-1"></span>
+<img src="TSA-in-R_files/figure-html/ar1-rho-1-1.png" alt="不同phi下AR(1)的自相关函数" width="80%" />
+<p class="caption">
+图1.5: 不同phi下AR(1)的自相关函数
+</p>
+</div>
+<p>由于<span class="math inline">\(|\phi|&lt;1\)</span>（平稳性），所以随着滞后长度k的增长，自相关系数的绝对值呈指数递减。当<span class="math inline">\(\phi&gt;0\)</span>，自相关系数均大于0，当<span class="math inline">\(\phi&lt;0\)</span>，自相关系数正负交错。</p>
+<p>当<span class="math inline">\(\phi\)</span>在<span class="math inline">\(\pm1\)</span>附近，指数递减得很慢，远离<span class="math inline">\(\pm1\)</span>时会指数递减得很快。所以当<span class="math inline">\(\phi\)</span>在<span class="math inline">\(\pm1\)</span>附近时，强相关性将会持续很多期。如果<span class="math inline">\(\phi&gt;0\)</span>，序列会相对平滑（可能还会看起来像是有趋势），如果<span class="math inline">\(\phi&lt;0\)</span>，序列呈锯齿状。</p>
+<blockquote>
+<p>关于上图中将数学符号跟变量结合在一起的做法，详见 <a href="https://blog.csdn.net/weixin_41929524/article/details/103610743" class="uri">https://blog.csdn.net/weixin_41929524/article/details/103610743</a>, <a href="https://stackoverflow.com/questions/15074127/use-expression-with-a-variable-r" class="uri">https://stackoverflow.com/questions/15074127/use-expression-with-a-variable-r</a></p>
+</blockquote>
+<div id="举例1-2" class="section level4" number="1.3.1.1">
+<h4><span class="header-section-number">1.3.1.1</span> 举例1</h4>
+<p><span class="math display">\[
+Y_t = 0.9Y_{t-1}+e_t
+\]</span></p>
+<p>这里 <span class="math inline">\(\phi=0.9\)</span>。</p>
+<p>模拟时间序列图：</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="arma-plot.html#cb11-1"></a>y =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ar=</span><span class="kw">c</span>(<span class="fl">0.9</span>)), <span class="dt">n=</span><span class="dv">150</span>, <span class="dt">sd=</span><span class="dv">1</span>)</span>
+<span id="cb11-2"><a href="arma-plot.html#cb11-2"></a><span class="kw">plot</span>(y,<span class="dt">type=</span><span class="st">&quot;o&quot;</span>,<span class="dt">cex=</span><span class="fl">0.7</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:ar1-plot-1"></span>
+<img src="TSA-in-R_files/figure-html/ar1-plot-1-1.png" alt="AR(1)例1模拟时间序列图" width="70%" />
+<p class="caption">
+图1.6: AR(1)例1模拟时间序列图
+</p>
+</div>
+<p>由图<a href="arma-plot.html#fig:ar1-plot-1">1.6</a>可以看到，图像比较平滑，看起来像是存在某种趋势（这当然是不存在的，均值恒为0），这是因为时间序列由于多期的强相关性而存在大量惯性变化。</p>
+</div>
+<div id="举例2-1" class="section level4" number="1.3.1.2">
+<h4><span class="header-section-number">1.3.1.2</span> 举例2</h4>
+<p><span class="math display">\[
+Y_t = -0.5Y_{t-1}+e_t
+\]</span>
+这里 <span class="math inline">\(\phi=-0.5\)</span>。</p>
+<p>模拟时间序列图：</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="arma-plot.html#cb12-1"></a>y =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ar=</span><span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>)), <span class="dt">n=</span><span class="dv">150</span>, <span class="dt">sd=</span><span class="dv">1</span>)</span>
+<span id="cb12-2"><a href="arma-plot.html#cb12-2"></a><span class="kw">plot</span>(y,<span class="dt">type=</span><span class="st">&quot;o&quot;</span>,<span class="dt">cex=</span><span class="fl">0.7</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:ar1-plot-2"></span>
+<img src="TSA-in-R_files/figure-html/ar1-plot-2-1.png" alt="AR(1)例2模拟时间序列图" width="70%" />
+<p class="caption">
+图1.7: AR(1)例2模拟时间序列图
+</p>
+</div>
+<p>这个锯齿状就比较好理解了，由于自相关系数的正负交替指数递减，并且先负后正。</p>
+</div>
+</div>
+<div id="ar2" class="section level3" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> AR(2)</h3>
+<p>模型表达：
+<span class="math display">\[
+Y_t = \phi_1 Y_{t-1}+\phi_2 Y_{t-2}+e_t
+\]</span></p>
+<p>统计特性：</p>
+<p>由Yule-Walker方程
+<span class="math display">\[
+\rho_k = \phi_1\rho_{k-1}+\phi_2\rho_{k-2},\quad k\ge1
+\]</span>
+导出：
+<span class="math display">\[
+\rho_1=\frac{\phi_1}{1-\phi_2},\quad \rho_2=\frac{\phi_2(1-\phi_2)+\phi_1^2}{1-\phi_2}
+\]</span></p>
+<p>不同<span class="math inline">\(\phi_1,\phi_2\)</span>下AR(1)的自相关函数：</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="arma-plot.html#cb13-1"></a>opar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">no.readonly =</span> T)</span>
+<span id="cb13-2"><a href="arma-plot.html#cb13-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb13-3"><a href="arma-plot.html#cb13-3"></a>p &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>,<span class="fl">0.25</span>,<span class="fl">1.0</span>,<span class="op">-</span><span class="fl">0.25</span>,<span class="fl">1.5</span>,<span class="op">-</span><span class="fl">0.75</span>,<span class="fl">1.0</span>,<span class="op">-</span><span class="fl">0.6</span>)</span>
+<span id="cb13-4"><a href="arma-plot.html#cb13-4"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>) {</span>
+<span id="cb13-5"><a href="arma-plot.html#cb13-5"></a>  <span class="co"># 将数学符号跟变量结合在一起</span></span>
+<span id="cb13-6"><a href="arma-plot.html#cb13-6"></a>  m &lt;-<span class="st"> </span><span class="kw">bquote</span>(phi[<span class="dv">1</span>]<span class="op">~</span><span class="st">&quot;=&quot;</span><span class="op">~</span>.(p[<span class="dv">2</span><span class="op">*</span>i<span class="dv">-1</span>])<span class="op">~</span>phi[<span class="dv">2</span>]<span class="op">~</span><span class="st">&quot;=&quot;</span><span class="op">~</span>.(p[<span class="dv">2</span><span class="op">*</span>i]))  </span>
+<span id="cb13-7"><a href="arma-plot.html#cb13-7"></a>  <span class="co"># 生成理论自相关函数</span></span>
+<span id="cb13-8"><a href="arma-plot.html#cb13-8"></a>  y &lt;-<span class="st"> </span><span class="kw">ARMAacf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(p[<span class="dv">2</span><span class="op">*</span>i<span class="dv">-1</span>],p[<span class="dv">2</span><span class="op">*</span>i]),<span class="dt">lag.max =</span> <span class="dv">12</span>)[<span class="op">-</span><span class="dv">1</span>]  </span>
+<span id="cb13-9"><a href="arma-plot.html#cb13-9"></a>  <span class="kw">plot</span>(y,<span class="dt">xlab =</span> <span class="st">&quot;滞后&quot;</span>,<span class="dt">ylab =</span> <span class="st">&quot;自相关函数&quot;</span>,</span>
+<span id="cb13-10"><a href="arma-plot.html#cb13-10"></a>       <span class="dt">main =</span> m,<span class="dt">type=</span><span class="st">&quot;h&quot;</span>)</span>
+<span id="cb13-11"><a href="arma-plot.html#cb13-11"></a>  <span class="kw">points</span>(y,<span class="dt">pch=</span><span class="dv">20</span>)</span>
+<span id="cb13-12"><a href="arma-plot.html#cb13-12"></a>  <span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>)</span>
+<span id="cb13-13"><a href="arma-plot.html#cb13-13"></a>}</span>
+<span id="cb13-14"><a href="arma-plot.html#cb13-14"></a><span class="kw">par</span>(opar)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:ar1-rho-2"></span>
+<img src="TSA-in-R_files/figure-html/ar1-rho-2-1.png" alt="不同phi下AR(2)的自相关函数" width="80%" />
+<p class="caption">
+图1.8: 不同phi下AR(2)的自相关函数
+</p>
+</div>
+<p>上面所表示的AR(2)模型均满足平稳性:
+<span class="math display">\[
+\phi_1+\phi_2&lt;1,\quad \phi_2-\phi_1&lt;1,\quad |\phi_2|&lt;1
+\]</span></p>
+<p>类似于图<a href="arma-plot.html#fig:ar1-rho-1">1.5</a>，在实数特征根（<span class="math inline">\(\phi^2_1+4\phi_2\ge0\)</span>）下图像依旧是呈指数递减，在复数特征根下图像呈阻尼正弦波动曲线。</p>
+<blockquote>
+<p>图<a href="arma-plot.html#fig:ar1-rho-1">1.5</a>采用自相关系数的具体公式进行计算绘制，经书本提醒，图<a href="arma-plot.html#fig:ar1-rho-2">1.8</a>使用函数<code>ARMAacf</code>函数计算理论自相关函数。</p>
+</blockquote>
+<div id="举例1-3" class="section level4" number="1.3.2.1">
+<h4><span class="header-section-number">1.3.2.1</span> 举例1</h4>
+<p><span class="math display">\[
+Y_t = 0.5 Y_{t-1}+0.25 Y_{t-2}+e_t
+\]</span></p>
+<p>这里 <span class="math inline">\(\phi_1=0.5,\phi_2=0.25\)</span>。</p>
+<p>模拟时间序列图：</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="arma-plot.html#cb14-1"></a>y =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ar=</span><span class="kw">c</span>(<span class="fl">0.5</span>,<span class="fl">0.25</span>)), <span class="dt">n=</span><span class="dv">150</span>, <span class="dt">sd=</span><span class="dv">1</span>)</span>
+<span id="cb14-2"><a href="arma-plot.html#cb14-2"></a><span class="kw">plot</span>(y,<span class="dt">type=</span><span class="st">&quot;o&quot;</span>,<span class="dt">cex=</span><span class="fl">0.7</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:ar2-plot-1"></span>
+<img src="TSA-in-R_files/figure-html/ar2-plot-1-1.png" alt="AR(2)例1模拟时间序列图" width="70%" />
+<p class="caption">
+图1.9: AR(2)例1模拟时间序列图
+</p>
+</div>
+<p>与图像<a href="arma-plot.html#fig:ar1-plot-1">1.6</a>对比一下。</p>
+</div>
+<div id="举例2-2" class="section level4" number="1.3.2.2">
+<h4><span class="header-section-number">1.3.2.2</span> 举例2</h4>
+<p><span class="math display">\[
+Y_t = 1.5 Y_{t-1}-0.75 Y_{t-2}+e_t
+\]</span></p>
+<p>这里 <span class="math inline">\(\phi_1=1.5,\phi_2=-0.75\)</span>。</p>
+<p>模拟时间序列图：</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="arma-plot.html#cb15-1"></a>y =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ar=</span><span class="kw">c</span>(<span class="fl">1.5</span>,<span class="op">-</span><span class="fl">0.75</span>)), <span class="dt">n=</span><span class="dv">200</span>, <span class="dt">sd=</span><span class="dv">1</span>)</span>
+<span id="cb15-2"><a href="arma-plot.html#cb15-2"></a><span class="kw">plot</span>(y,<span class="dt">type=</span><span class="st">&quot;o&quot;</span>,<span class="dt">cex=</span><span class="fl">0.7</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:ar2-plot-2"></span>
+<img src="TSA-in-R_files/figure-html/ar2-plot-2-1.png" alt="AR(2)例2模拟时间序列图" width="70%" />
+<p class="caption">
+图1.10: AR(2)例2模拟时间序列图
+</p>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+<section style="
+    display: block;
+">
+<script src="https://utteranc.es/client.js"
+        repo="huanghaicheng1024/TSA-in-R"
+        issue-term="title"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+</section>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="arima-plot.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/huanghaicheng1024/TSA-in-R/edit/main/01-arma-plot.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "none"
+},
+"search": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
