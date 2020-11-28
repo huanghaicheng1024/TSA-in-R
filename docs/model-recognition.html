@@ -24,7 +24,7 @@
 <meta name="author" content="Huang" />
 
 
-<meta name="date" content="2020-11-27" />
+<meta name="date" content="2020-11-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -175,7 +175,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2.4" data-path="model-recognition.html"><a href="model-recognition.html#例4"><i class="fa fa-check"></i><b>3.2.4</b> 例4</a></li>
 <li class="chapter" data-level="3.2.5" data-path="model-recognition.html"><a href="model-recognition.html#例5"><i class="fa fa-check"></i><b>3.2.5</b> 例5</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="model-recognition.html"><a href="model-recognition.html#非平稳性模型"><i class="fa fa-check"></i><b>3.3</b> 非平稳性模型</a></li>
+<li class="chapter" data-level="3.3" data-path="model-recognition.html"><a href="model-recognition.html#非平稳性模型"><i class="fa fa-check"></i><b>3.3</b> 非平稳性模型</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="model-recognition.html"><a href="model-recognition.html#观察图像"><i class="fa fa-check"></i><b>3.3.1</b> 观察图像</a></li>
+<li class="chapter" data-level="3.3.2" data-path="model-recognition.html"><a href="model-recognition.html#adf单位根检验"><i class="fa fa-check"></i><b>3.3.2</b> ADF单位根检验</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="model-recognition.html"><a href="model-recognition.html#其他识别方法"><i class="fa fa-check"></i><b>3.4</b> 其他识别方法</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://bookdown.org" target="blank">本书由 bookdown 强力驱动</a></li>
@@ -201,7 +206,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">3</span> 模型识别</h1>
 <p>本章主要学习，对于给定的时间序列，如何选取适当的<span class="math inline">\(p,d,q\)</span>，从而建立<span class="math inline">\(ARIMA(p,d,q)\)</span>模型。</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="model-recognition.html#cb28-1"></a><span class="kw">library</span>(TSA)</span>
-<span id="cb28-2"><a href="model-recognition.html#cb28-2"></a><span class="kw">set.seed</span>(<span class="dv">1014</span>)</span></code></pre></div>
+<span id="cb28-2"><a href="model-recognition.html#cb28-2"></a><span class="kw">library</span>(uroot)</span>
+<span id="cb28-3"><a href="model-recognition.html#cb28-3"></a><span class="kw">set.seed</span>(<span class="dv">1014</span>)</span></code></pre></div>
 <div id="主要方法" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> 主要方法</h2>
 <ul>
@@ -367,6 +373,127 @@ Y_t = 0.6Y_{t-1}+e_t+0.3e_{t-1}
 </div>
 <div id="非平稳性模型" class="section level2" number="3.3">
 <h2><span class="header-section-number">3.3</span> 非平稳性模型</h2>
+<div id="观察图像" class="section level3" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> 观察图像</h3>
+<p>序列的非平稳性经常表现在图像中，如；</p>
+<ul>
+<li><p>时间序列图，例如图<a href="arima-plot.html#fig:arima-plot-1">2.4</a>，<a href="arima-plot.html#fig:arima-plot-2">2.5</a>；</p></li>
+<li><p>样本ACF图，通常不会随着滞后的增加而迅速衰减。样本ACF的<strong>近似线性衰减</strong>通常被认为是时间序列非平稳并且需要差分的征兆。</p></li>
+</ul>
+</div>
+<div id="adf单位根检验" class="section level3" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> ADF单位根检验</h3>
+<p>DF检验核心思想：对差分序列的检验等价于与原序列的AR特征多项式是否存在单位根。</p>
+<p>增强的Dickey-Fuller检验，原假设为该过程非平稳，但差分一次后平稳，备择假设为该过程平稳。可以用于检验是差分平稳性以及趋势平稳性。</p>
+<p>首先对过程差分AR定阶，然后利用<a href="https://rdrr.io/rforge/uroot/man/ADF.test.html">ADF.test</a>再进行ADF检验。</p>
+<p>下面以随机游动为例，进行ADF检验。</p>
+<p>首先差分AR定阶：</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="model-recognition.html#cb46-1"></a><span class="kw">data</span>(<span class="st">&quot;rwalk&quot;</span>)</span>
+<span id="cb46-2"><a href="model-recognition.html#cb46-2"></a><span class="kw">ar</span>(<span class="kw">diff</span>(rwalk))</span>
+<span id="cb46-3"><a href="model-recognition.html#cb46-3"></a><span class="co">#&gt; </span></span>
+<span id="cb46-4"><a href="model-recognition.html#cb46-4"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb46-5"><a href="model-recognition.html#cb46-5"></a><span class="co">#&gt; ar(x = diff(rwalk))</span></span>
+<span id="cb46-6"><a href="model-recognition.html#cb46-6"></a><span class="co">#&gt; </span></span>
+<span id="cb46-7"><a href="model-recognition.html#cb46-7"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb46-8"><a href="model-recognition.html#cb46-8"></a><span class="co">#&gt;      1       2       3       4       5       6       7       8  </span></span>
+<span id="cb46-9"><a href="model-recognition.html#cb46-9"></a><span class="co">#&gt; -0.162  -0.123   0.004  -0.196  -0.160  -0.342   0.065  -0.323  </span></span>
+<span id="cb46-10"><a href="model-recognition.html#cb46-10"></a><span class="co">#&gt; </span></span>
+<span id="cb46-11"><a href="model-recognition.html#cb46-11"></a><span class="co">#&gt; Order selected 8  sigma^2 estimated as  0.839</span></span></code></pre></div>
+<p>ADF检验，原假设为具有单位根，备择假设具有未知均值（截距）的平稳序列：</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="model-recognition.html#cb47-1"></a><span class="kw">ADF.test</span>(rwalk,<span class="dt">selectlags =</span> <span class="kw">list</span>(<span class="dt">mode=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>),<span class="dt">Pmax=</span><span class="dv">8</span>),</span>
+<span id="cb47-2"><a href="model-recognition.html#cb47-2"></a>         <span class="dt">itsd =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb47-3"><a href="model-recognition.html#cb47-3"></a><span class="co">#&gt; Warning in interpolpval(code = code, stat = adfreg[, 3], N = N): p-value is</span></span>
+<span id="cb47-4"><a href="model-recognition.html#cb47-4"></a><span class="co">#&gt; greater than printed p-value</span></span>
+<span id="cb47-5"><a href="model-recognition.html#cb47-5"></a><span class="co">#&gt;   --------- ------ - ------ ----</span></span>
+<span id="cb47-6"><a href="model-recognition.html#cb47-6"></a><span class="co">#&gt;   Augmented Dickey &amp; Fuller test</span></span>
+<span id="cb47-7"><a href="model-recognition.html#cb47-7"></a><span class="co">#&gt;   --------- ------ - ------ ----</span></span>
+<span id="cb47-8"><a href="model-recognition.html#cb47-8"></a><span class="co">#&gt; </span></span>
+<span id="cb47-9"><a href="model-recognition.html#cb47-9"></a><span class="co">#&gt;   Null hypothesis: Unit root.</span></span>
+<span id="cb47-10"><a href="model-recognition.html#cb47-10"></a><span class="co">#&gt;   Alternative hypothesis: Stationarity.</span></span>
+<span id="cb47-11"><a href="model-recognition.html#cb47-11"></a><span class="co">#&gt; </span></span>
+<span id="cb47-12"><a href="model-recognition.html#cb47-12"></a><span class="co">#&gt; ----</span></span>
+<span id="cb47-13"><a href="model-recognition.html#cb47-13"></a><span class="co">#&gt;   ADF statistic:</span></span>
+<span id="cb47-14"><a href="model-recognition.html#cb47-14"></a><span class="co">#&gt; </span></span>
+<span id="cb47-15"><a href="model-recognition.html#cb47-15"></a><span class="co">#&gt;         Estimate Std. Error t value Pr(&gt;|t|)</span></span>
+<span id="cb47-16"><a href="model-recognition.html#cb47-16"></a><span class="co">#&gt; adf.reg   -0.036      0.059  -0.601      0.1</span></span>
+<span id="cb47-17"><a href="model-recognition.html#cb47-17"></a><span class="co">#&gt; </span></span>
+<span id="cb47-18"><a href="model-recognition.html#cb47-18"></a><span class="co">#&gt;   Lag orders: 1 2 3 4 5 6 7 8</span></span>
+<span id="cb47-19"><a href="model-recognition.html#cb47-19"></a><span class="co">#&gt;   Number of available observations: 51</span></span></code></pre></div>
+<p>开上帝视角，代入真实AR阶数0阶，继续ADF检验：</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="model-recognition.html#cb48-1"></a><span class="kw">ADF.test</span>(rwalk,<span class="dt">selectlags =</span> <span class="kw">list</span>(<span class="dt">Pmax=</span><span class="dv">0</span>),</span>
+<span id="cb48-2"><a href="model-recognition.html#cb48-2"></a>         <span class="dt">itsd =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb48-3"><a href="model-recognition.html#cb48-3"></a><span class="co">#&gt; Warning in interpolpval(code = code, stat = adfreg[, 3], N = N): p-value is</span></span>
+<span id="cb48-4"><a href="model-recognition.html#cb48-4"></a><span class="co">#&gt; greater than printed p-value</span></span>
+<span id="cb48-5"><a href="model-recognition.html#cb48-5"></a><span class="co">#&gt;   --------- ------ - ------ ----</span></span>
+<span id="cb48-6"><a href="model-recognition.html#cb48-6"></a><span class="co">#&gt;   Augmented Dickey &amp; Fuller test</span></span>
+<span id="cb48-7"><a href="model-recognition.html#cb48-7"></a><span class="co">#&gt;   --------- ------ - ------ ----</span></span>
+<span id="cb48-8"><a href="model-recognition.html#cb48-8"></a><span class="co">#&gt; </span></span>
+<span id="cb48-9"><a href="model-recognition.html#cb48-9"></a><span class="co">#&gt;   Null hypothesis: Unit root.</span></span>
+<span id="cb48-10"><a href="model-recognition.html#cb48-10"></a><span class="co">#&gt;   Alternative hypothesis: Stationarity.</span></span>
+<span id="cb48-11"><a href="model-recognition.html#cb48-11"></a><span class="co">#&gt; </span></span>
+<span id="cb48-12"><a href="model-recognition.html#cb48-12"></a><span class="co">#&gt; ----</span></span>
+<span id="cb48-13"><a href="model-recognition.html#cb48-13"></a><span class="co">#&gt;   ADF statistic:</span></span>
+<span id="cb48-14"><a href="model-recognition.html#cb48-14"></a><span class="co">#&gt; </span></span>
+<span id="cb48-15"><a href="model-recognition.html#cb48-15"></a><span class="co">#&gt;         Estimate Std. Error t value Pr(&gt;|t|)</span></span>
+<span id="cb48-16"><a href="model-recognition.html#cb48-16"></a><span class="co">#&gt; adf.reg   -0.087       0.05   -1.74      0.1</span></span>
+<span id="cb48-17"><a href="model-recognition.html#cb48-17"></a><span class="co">#&gt; </span></span>
+<span id="cb48-18"><a href="model-recognition.html#cb48-18"></a><span class="co">#&gt;   Lag orders: 0</span></span>
+<span id="cb48-19"><a href="model-recognition.html#cb48-19"></a><span class="co">#&gt;   Number of available observations: 59</span></span></code></pre></div>
+<p>两次ADF检验的P值都大于0.1，表明有比较强的证据支持原假设，即有单位根（差分一次后平稳）。</p>
+<p>由于：</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="model-recognition.html#cb49-1"></a><span class="kw">plot</span>(rwalk,<span class="dt">type=</span><span class="st">&quot;o&quot;</span>,<span class="dt">cex=</span><span class="fl">0.7</span>)</span></code></pre></div>
+<p><img src="TSA-in-R_files/figure-html/unnamed-chunk-39-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>随机游动的图像看起来似乎有线性趋势，我们使用ADF检验一下：</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="model-recognition.html#cb50-1"></a><span class="kw">ADF.test</span>(rwalk,<span class="dt">selectlags =</span> <span class="kw">list</span>(<span class="dt">mode=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>),<span class="dt">Pmax=</span><span class="dv">8</span>),</span>
+<span id="cb50-2"><a href="model-recognition.html#cb50-2"></a>         <span class="dt">itsd =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb50-3"><a href="model-recognition.html#cb50-3"></a><span class="co">#&gt; Warning in interpolpval(code = code, stat = adfreg[, 3], N = N): p-value is</span></span>
+<span id="cb50-4"><a href="model-recognition.html#cb50-4"></a><span class="co">#&gt; greater than printed p-value</span></span>
+<span id="cb50-5"><a href="model-recognition.html#cb50-5"></a><span class="co">#&gt;   --------- ------ - ------ ----</span></span>
+<span id="cb50-6"><a href="model-recognition.html#cb50-6"></a><span class="co">#&gt;   Augmented Dickey &amp; Fuller test</span></span>
+<span id="cb50-7"><a href="model-recognition.html#cb50-7"></a><span class="co">#&gt;   --------- ------ - ------ ----</span></span>
+<span id="cb50-8"><a href="model-recognition.html#cb50-8"></a><span class="co">#&gt; </span></span>
+<span id="cb50-9"><a href="model-recognition.html#cb50-9"></a><span class="co">#&gt;   Null hypothesis: Unit root.</span></span>
+<span id="cb50-10"><a href="model-recognition.html#cb50-10"></a><span class="co">#&gt;   Alternative hypothesis: Stationarity.</span></span>
+<span id="cb50-11"><a href="model-recognition.html#cb50-11"></a><span class="co">#&gt; </span></span>
+<span id="cb50-12"><a href="model-recognition.html#cb50-12"></a><span class="co">#&gt; ----</span></span>
+<span id="cb50-13"><a href="model-recognition.html#cb50-13"></a><span class="co">#&gt;   ADF statistic:</span></span>
+<span id="cb50-14"><a href="model-recognition.html#cb50-14"></a><span class="co">#&gt; </span></span>
+<span id="cb50-15"><a href="model-recognition.html#cb50-15"></a><span class="co">#&gt;         Estimate Std. Error t value Pr(&gt;|t|)</span></span>
+<span id="cb50-16"><a href="model-recognition.html#cb50-16"></a><span class="co">#&gt; adf.reg   -0.637      0.278   -2.29      0.1</span></span>
+<span id="cb50-17"><a href="model-recognition.html#cb50-17"></a><span class="co">#&gt; </span></span>
+<span id="cb50-18"><a href="model-recognition.html#cb50-18"></a><span class="co">#&gt;   Lag orders: 1 2 3 4 5 6 7 8</span></span>
+<span id="cb50-19"><a href="model-recognition.html#cb50-19"></a><span class="co">#&gt;   Number of available observations: 51</span></span></code></pre></div>
+<p>P值大于0.1，没有足够把握拒绝单位根假设。</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="model-recognition.html#cb51-1"></a><span class="kw">ADF.test</span>(rwalk,<span class="dt">selectlags =</span> <span class="kw">list</span>(<span class="dt">Pmax=</span><span class="dv">0</span>),</span>
+<span id="cb51-2"><a href="model-recognition.html#cb51-2"></a>         <span class="dt">itsd =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb51-3"><a href="model-recognition.html#cb51-3"></a><span class="co">#&gt;   --------- ------ - ------ ----</span></span>
+<span id="cb51-4"><a href="model-recognition.html#cb51-4"></a><span class="co">#&gt;   Augmented Dickey &amp; Fuller test</span></span>
+<span id="cb51-5"><a href="model-recognition.html#cb51-5"></a><span class="co">#&gt;   --------- ------ - ------ ----</span></span>
+<span id="cb51-6"><a href="model-recognition.html#cb51-6"></a><span class="co">#&gt; </span></span>
+<span id="cb51-7"><a href="model-recognition.html#cb51-7"></a><span class="co">#&gt;   Null hypothesis: Unit root.</span></span>
+<span id="cb51-8"><a href="model-recognition.html#cb51-8"></a><span class="co">#&gt;   Alternative hypothesis: Stationarity.</span></span>
+<span id="cb51-9"><a href="model-recognition.html#cb51-9"></a><span class="co">#&gt; </span></span>
+<span id="cb51-10"><a href="model-recognition.html#cb51-10"></a><span class="co">#&gt; ----</span></span>
+<span id="cb51-11"><a href="model-recognition.html#cb51-11"></a><span class="co">#&gt;   ADF statistic:</span></span>
+<span id="cb51-12"><a href="model-recognition.html#cb51-12"></a><span class="co">#&gt; </span></span>
+<span id="cb51-13"><a href="model-recognition.html#cb51-13"></a><span class="co">#&gt;         Estimate Std. Error t value Pr(&gt;|t|)</span></span>
+<span id="cb51-14"><a href="model-recognition.html#cb51-14"></a><span class="co">#&gt; adf.reg    -0.39      0.112   -3.49     0.05</span></span>
+<span id="cb51-15"><a href="model-recognition.html#cb51-15"></a><span class="co">#&gt; </span></span>
+<span id="cb51-16"><a href="model-recognition.html#cb51-16"></a><span class="co">#&gt;   Lag orders: 0</span></span>
+<span id="cb51-17"><a href="model-recognition.html#cb51-17"></a><span class="co">#&gt;   Number of available observations: 59</span></span></code></pre></div>
+<p>P值约为0.05，有较弱的证据拒绝原假设，即认为该序列是具有线性趋势的非平稳序列（线性趋势+平稳误差），但实际上只是差分非平稳。这个例子表明，小样本下很难区分差分非平稳以及趋势非平稳。</p>
+</div>
+</div>
+<div id="其他识别方法" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> 其他识别方法</h2>
+<p>利用AIC、BIC等准则确定最佳子集ARMA模型。</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="model-recognition.html#cb52-1"></a>test &lt;-<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">ar=</span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">11</span>),<span class="fl">0.8</span>),</span>
+<span id="cb52-2"><a href="model-recognition.html#cb52-2"></a>                               <span class="dt">ma=</span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">11</span>),<span class="fl">0.7</span>)),<span class="dt">n=</span><span class="dv">120</span>)</span>
+<span id="cb52-3"><a href="model-recognition.html#cb52-3"></a>res &lt;-<span class="st"> </span><span class="kw">armasubsets</span>(test,<span class="dt">nar =</span> <span class="dv">14</span>,<span class="dt">nma =</span> <span class="dv">14</span>,<span class="dt">y.name =</span> <span class="st">&quot;test&quot;</span>,</span>
+<span id="cb52-4"><a href="model-recognition.html#cb52-4"></a>                   <span class="dt">ar.method =</span> <span class="st">&quot;ols&quot;</span>)</span>
+<span id="cb52-5"><a href="model-recognition.html#cb52-5"></a><span class="kw">plot</span>(res)</span></code></pre></div>
+<p><img src="TSA-in-R_files/figure-html/unnamed-chunk-42-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>从图像推测从为ARMA(12,12)模型。</p>
 
 </div>
 </div>
