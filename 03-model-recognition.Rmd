@@ -4,6 +4,7 @@
 
 ```{r}
 library(TSA)
+library(uroot)
 set.seed(1014)
 ```
 
@@ -178,15 +179,77 @@ eacf(eg4)
 
 ## 非平稳性模型
 
+### 观察图像
 
+序列的非平稳性经常表现在图像中，如；
 
+- 时间序列图，例如图\@ref(fig:arima-plot-1)，\@ref(fig:arima-plot-2)；
 
+- 样本ACF图，通常不会随着滞后的增加而迅速衰减。样本ACF的**近似线性衰减**通常被认为是时间序列非平稳并且需要差分的征兆。
 
+### ADF单位根检验
 
+DF检验核心思想：对差分序列的检验等价于与原序列的AR特征多项式是否存在单位根。
 
+增强的Dickey-Fuller检验，原假设为该过程非平稳，但差分一次后平稳，备择假设为该过程平稳。可以用于检验是差分平稳性以及趋势平稳性。
 
+首先对过程差分AR定阶，然后利用[ADF.test](https://rdrr.io/rforge/uroot/man/ADF.test.html)再进行ADF检验。
 
+下面以随机游动为例，进行ADF检验。
 
+首先差分AR定阶：
+```{r}
+data("rwalk")
+ar(diff(rwalk))
+```
+
+ADF检验，原假设为具有单位根，备择假设具有未知均值（截距）的平稳序列：
+```{r}
+ADF.test(rwalk,selectlags = list(mode=c(1,2,3,4,5,6,7,8),Pmax=8),
+         itsd = c(1,0,0))
+```
+
+开上帝视角，代入真实AR阶数0阶，继续ADF检验：
+```{r}
+ADF.test(rwalk,selectlags = list(Pmax=0),
+         itsd = c(1,0,0))
+```
+
+两次ADF检验的P值都大于0.1，表明有比较强的证据支持原假设，即有单位根（差分一次后平稳）。
+
+由于：
+```{r}
+plot(rwalk,type="o",cex=0.7)
+```
+
+随机游动的图像看起来似乎有线性趋势，我们使用ADF检验一下：
+```{r}
+ADF.test(rwalk,selectlags = list(mode=c(1,2,3,4,5,6,7,8),Pmax=8),
+         itsd = c(1,1,0))
+```
+
+P值大于0.1，没有足够把握拒绝单位根假设。
+
+```{r}
+ADF.test(rwalk,selectlags = list(Pmax=0),
+         itsd = c(1,1,0))
+```
+
+P值约为0.05，有较弱的证据拒绝原假设，即认为该序列是具有线性趋势的非平稳序列（线性趋势+平稳误差），但实际上只是差分非平稳。这个例子表明，小样本下很难区分差分非平稳以及趋势非平稳。
+
+## 其他识别方法
+
+利用AIC、BIC等准则确定最佳子集ARMA模型。
+
+```{r}
+test <- arima.sim(model = list(ar=c(rep(0,11),0.8),
+                               ma=c(rep(0,11),0.7)),n=120)
+res <- armasubsets(test,nar = 14,nma = 14,y.name = "test",
+                   ar.method = "ols")
+plot(res)
+```
+
+从图像推测从为ARMA(12,12)模型。
 
 
 
